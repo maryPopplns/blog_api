@@ -5,6 +5,8 @@
   "scripts": {
     "start": "node ./bin/www",
     "serverstart": "nodemon ./bin/www",
+    "dbstop": "brew services stop mongodb-community@5.0",
+    "dbstart": "brew services start mongodb-community@5.0",
     "git": "git add . && git commit && git push origin $(git rev-parse --abbrev-ref HEAD) && echo '\n' && echo $(tput setaf 2)'commited: ' $(tput setaf 1)$(date) && echo '\n'"
   },
   "dependencies": {
