@@ -6,10 +6,11 @@ const logger = require('morgan');
 
 // [ ROUTE IMPORTS ]
 const indexRouter = require(path.join(__dirname, 'routes/index'));
-const usersRouter = require(path.join(__dirname, 'routes/users'));
 
+// [ APP ]
 const app = express();
 
+// [ MIDDLEWARE ]
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -18,7 +19,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // [ ROUTES ]
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
 
 // [ 404 ]
 app.use(function (req, res, next) {
