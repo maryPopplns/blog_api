@@ -10,7 +10,7 @@ const indexRouter = require(path.join(__dirname, 'routes/index'));
 const app = express();
 
 // [ MONGO CONNECTION ]
-require(path.join(__dirname, '/utils/database'));
+require(path.join(__dirname, '/config/database'));
 
 // [ LOG REQUESTS ]
 const stream = fs.createWriteStream(
