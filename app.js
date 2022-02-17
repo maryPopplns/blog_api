@@ -4,9 +4,13 @@ const logger = require('morgan');
 const express = require('express');
 const createError = require('http-errors');
 const cookieParser = require('cookie-parser');
+
 const indexRouter = require(path.join(__dirname, 'routes/index'));
 
 const app = express();
+
+// [ MONGO CONNECTION ]
+require(path.join(__dirname, '/utils/database'));
 
 // [ LOG REQUESTS ]
 const stream = fs.createWriteStream(
