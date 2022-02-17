@@ -1,17 +1,22 @@
+const fs = require('fs');
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
-const logger = require('morgan');
+const morganlogger = require('morgan');
 
-// [ ROUTE IMPORTS ]
 const indexRouter = require(path.join(__dirname, 'routes/index'));
 
-// [ APP ]
 const app = express();
 
+// [ LOG REQUESTS ]
+const stream = fs.createWriteStream(
+  path.join(__dirname, 'logger/access/access.log'),
+  { flags: 'a' }
+);
+app.use(morganlogger('combined', { stream }));
+
 // [ MIDDLEWARE ]
-app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());

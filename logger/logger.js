@@ -34,7 +34,7 @@ exports.logger = winston.createLogger({
       ),
     }),
     new winston.transports.File({
-      filename: 'logger/logs/error.log',
+      filename: 'logger/app/error.log',
       level: 'error',
     }),
   ],
