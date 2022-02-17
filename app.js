@@ -4,8 +4,9 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
-const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
+// [ ROUTE IMPORTS ]
+const indexRouter = require(path.join(__dirname, 'routes/index'));
+const usersRouter = require(path.join(__dirname, 'routes/users'));
 
 const app = express();
 
