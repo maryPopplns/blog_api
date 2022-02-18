@@ -1,3 +1,4 @@
+require('dotenv').config();
 const path = require('path');
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
@@ -13,18 +14,20 @@ exports.login_local_post = [
       'local',
       { session: false },
       function (error, user, info) {
+        // error || !user
         if (error || !user) {
           return res.status(400).json({
             message: 'Something is not right',
             user: user,
           });
         }
+        // user found
         req.login(user, { session: false }, (err) => {
           if (err) {
             res.send(err);
           }
-          // generate a signed son web token with the contents of user object and return it in the response
-          const token = jwt.sign(user.toJSON(), 'your_jwt_secret');
+          const token = jwt.sign(user.toJSON(), process.env.JWT_SECRET);
+          res.location(process.env.URL);
           return res.json({ user, token });
         });
       }
