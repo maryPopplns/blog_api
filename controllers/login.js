@@ -42,6 +42,12 @@ exports.login_local_post = [
   },
 ];
 
-exports.login_google_post = function (req, res, next) {
-  res.end('google');
-};
+exports.login_google_get = passport.authenticate('google', {
+  scope: ['email'],
+});
+
+exports.login_google_success_get = passport.authenticate('google', {
+  failureRedirect: '/',
+  successRedirect: '/',
+  failureMessage: true,
+});
