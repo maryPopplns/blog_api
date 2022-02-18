@@ -31,12 +31,12 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: `${process.env.URL}login/google/success`,
+      callbackURL: 'http://localhost:3000/login/google/success',
     },
     function (accessToken, refreshToken, profile, done) {
       const { email } = profile._json;
 
-      const query = { email };
+      const query = { username: email };
       const update = { username: email };
       const options = { upsert: true, new: true };
       // Find the document

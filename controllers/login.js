@@ -43,11 +43,15 @@ exports.login_local_post = [
 ];
 
 exports.login_google_get = passport.authenticate('google', {
-  scope: ['email'],
+  session: false,
+  scope: ['profile', 'email'],
 });
 
-exports.login_google_success_get = passport.authenticate('google', {
-  failureRedirect: '/',
-  successRedirect: '/',
-  failureMessage: true,
-});
+exports.login_google_success_get = function (req, res, next) {
+  passport.authenticate('google', function (error, user, info) {
+    logger.info(`${error}`);
+    logger.info(`${user}`);
+    logger.info(`${info}`);
+    res.end();
+  })(req, res, next);
+};
