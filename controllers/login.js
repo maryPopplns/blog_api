@@ -3,7 +3,7 @@ const path = require('path');
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
 const { check } = require('express-validator');
-const { logger } = require(path.join(__dirname, '../logger/logger.js'));
+const { logger } = require(path.join(__dirname, '../logger/logger'));
 
 // [ LOGIN FOR LOCAL STRATEGY ]
 exports.login_local_post = [

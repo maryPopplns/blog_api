@@ -1,9 +1,13 @@
 const fs = require('fs');
-const envfile = require('envfile');
+const path = require('path');
+const { parse, stringify } = require('envfile');
+const { logger } = require(path.join(__dirname, '/logger/logger'));
 
-const sourcePath = '.env';
-console.log(envfile.parseFileSync(sourcePath));
-let parsedFile = envfile.parseFileSync(sourcePath);
-parsedFile.NEW_VAR = 'newVariableValue';
-fs.writeFileSync('./.env', envfile.stringifySync(parsedFile));
-console.log(envfile.stringifySync(parsedFile));
+fs.readFile('.env', 'utf8', (err, data) => {
+  if (err) {
+    console.error(err);
+    return;
+  }
+  const parsed = parse(data);
+  logger.info(parsed);
+});
