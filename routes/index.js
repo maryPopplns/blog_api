@@ -24,6 +24,8 @@ router.post('/login', [
             message: 'Something is not right',
             user: user,
           });
+        } else {
+          res.json({ user });
         }
         // if (error) {
         //   return next(error);
