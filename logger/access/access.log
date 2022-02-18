@@ -76,3 +76,7 @@
 ::1 - - [18/Feb/2022:17:11:52 +0000] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.80 Safari/537.36"
 ::1 - - [18/Feb/2022:17:16:01 +0000] "POST /login/local HTTP/1.1" 200 444 "-" "PostmanRuntime/7.29.0"
 ::1 - - [18/Feb/2022:17:16:52 +0000] "POST /login/local HTTP/1.1" 200 444 "-" "PostmanRuntime/7.29.0"
+::1 - - [18/Feb/2022:18:24:14 +0000] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.80 Safari/537.36"
+::1 - - [18/Feb/2022:18:24:43 +0000] "GET /login/google HTTP/1.1" - - "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.80 Safari/537.36"
+::1 - - [18/Feb/2022:18:24:47 +0000] "GET /login/google HTTP/1.1" - - "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.80 Safari/537.36"
+::1 - - [18/Feb/2022:18:25:39 +0000] "POST /login/google HTTP/1.1" 200 - "-" "PostmanRuntime/7.29.0"

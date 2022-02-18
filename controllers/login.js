@@ -41,3 +41,7 @@ exports.login_local_post = [
     )(req, res, next);
   },
 ];
+
+exports.login_google_post = function (req, res, next) {
+  res.end('google');
+};
