@@ -25,6 +25,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// [ AUTHENTICATION ]
+require(path.join(__dirname, '/config/auth'));
+
 // [ ROUTES ]
 app.use('/', indexRouter);
 

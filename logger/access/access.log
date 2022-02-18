@@ -2,3 +2,4 @@
 ::1 - - [17/Feb/2022:18:20:55 +0000] "GET / HTTP/1.1" 200 - "-" "curl/7.77.0"
 ::1 - - [17/Feb/2022:20:43:01 +0000] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.80 Safari/537.36"
 ::1 - - [17/Feb/2022:20:43:01 +0000] "GET /favicon.ico HTTP/1.1" - - "http://localhost:3000/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.80 Safari/537.36"
+::1 - - [17/Feb/2022:23:24:23 +0000] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.80 Safari/537.36"
