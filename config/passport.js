@@ -2,11 +2,8 @@ const path = require('path');
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const User = require(path.join(__dirname, '../models/user'));
-const passportJWT = require('passport-jwt');
-const JWTStrategy = passportJWT.Strategy;
-const ExtractJWT = passportJWT.ExtractJwt;
 
-// [ LOCAL STRATEGY ]
+// [ DEFINE LOCAL STRATEGY ]
 passport.use(
   new LocalStrategy((username, password, done) => {
     User.findOne({ username: username }, (err, user) => {
