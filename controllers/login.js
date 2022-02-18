@@ -4,7 +4,8 @@ const passport = require('passport');
 const { check } = require('express-validator');
 const { logger } = require(path.join(__dirname, '../logger/logger.js'));
 
-exports.login_local = [
+// [ LOGIN FOR LOCAL STRATEGY ]
+exports.login_local_post = [
   check('username').trim().escape(),
   check('password').trim().escape(),
   function (req, res, next) {
@@ -17,23 +18,15 @@ exports.login_local = [
             message: 'Something is not right',
             user: user,
           });
-        } else {
-          res.json({ user });
         }
-
-        // if (error) {
-        //   return next(error);
-        // } else if (!user) {
-        //   return res.render('login', { message: info.message });
-        // } else {
-        //   req.logIn(user, function (err) {
-        //     if (error) {
-        //       return next(err);
-        //     } else {
-        //       return res.redirect('/');
-        //     }
-        //   });
-        // }
+        req.login(user, { session: false }, (err) => {
+          if (err) {
+            res.send(err);
+          }
+          // generate a signed son web token with the contents of user object and return it in the response
+          const token = jwt.sign(user.toJSON(), 'your_jwt_secret');
+          return res.json({ user, token });
+        });
       }
     )(req, res, next);
   },
