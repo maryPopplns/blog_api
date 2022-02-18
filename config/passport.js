@@ -31,20 +31,20 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: 'http://localhost:3000/',
+      callbackURL: `${process.env.url}login/google/success`,
     },
-    function (accessToken, refreshToken, profile, cb) {
-      const { sub, email, name } = profile._json;
+    function (accessToken, refreshToken, profile, done) {
+      const { email } = profile._json;
 
       const query = { email };
-      const update = { fullname: sub, email, username: name };
+      const update = { username: email };
       const options = { upsert: true, new: true };
       // Find the document
       User.findOneAndUpdate(query, update, options, function (error, result) {
         if (error) {
-          cb(error);
+          done(error);
         } else {
-          cb(null, result);
+          done(null, result);
         }
       });
     }
