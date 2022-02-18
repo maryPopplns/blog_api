@@ -8,5 +8,5 @@ mongoose
     useUnifiedTopology: true,
     useNewUrlParser: true,
   })
-  .then(() => logger.info(`🔓 DB connection successful 🔓`))
+  .then(() => logger.info(`DB connection successful 🔓`))
   .catch((error) => logger.error(`${error}`));

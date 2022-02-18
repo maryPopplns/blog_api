@@ -1,7 +1,8 @@
 const path = require('path');
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
-const User = require(path.join(__dirname, '../models/user'));
+const LocalStrategy = require('passport-local').Strategy;
+// const User = require(path.join(__dirname, '../models/user'));
 
 // [ DEFINE LOCAL STRATEGY ]
 passport.use(
@@ -23,6 +24,3 @@ passport.use(
     });
   })
 );
-
-// create user
-// use postman to test

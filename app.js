@@ -30,7 +30,7 @@ require(path.join(__dirname, '/config/passport'));
 
 // [ ROUTES ]
 app.use('/', indexRouter);
-app.use('/auth', authRouter);
+// app.use('/auth', authRouter);
 
 // [ 404 ]
 app.use(function (req, res, next) {

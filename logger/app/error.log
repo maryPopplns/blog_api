@@ -12,3 +12,4 @@
 {"level":"error","message":"❗MongooseError: The `uri` parameter to `openUri()` must be a string, got \"undefined\". Make sure the first parameter to `mongoose.connect()` or `mongoose.createConnection()` is a string.❗"}
 {"level":"error","message":"❗ MongooseError: The `uri` parameter to `openUri()` must be a string, got \"undefined\". Make sure the first parameter to `mongoose.connect()` or `mongoose.createConnection()` is a string. ❗"}
 {"level":"error","message":"\ud83d\uded1 MongooseError: The `uri` parameter to `openUri()` must be a string, got \"undefined\". Make sure the first parameter to `mongoose.connect()` or `mongoose.createConnection()` is a string. \ud83d\uded1"}
+{"level":"error","message":"MongoNotConnectedError: MongoClient must be connected to perform this operation"}
