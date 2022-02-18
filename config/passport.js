@@ -31,7 +31,7 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: 'http://localhost:3000/login/google/success',
+      callbackURL: 'http://localhost:3000/',
     },
     function (accessToken, refreshToken, profile, cb) {
       const { sub, email, name } = profile._json;
