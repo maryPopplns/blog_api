@@ -26,7 +26,14 @@ exports.login_local_post = [
           if (err) {
             res.send(err);
           }
-          const token = jwt.sign(user.toJSON(), process.env.JWT_SECRET);
+          const token = jwt.sign(
+            {
+              data: user.toJSON(),
+              exp: Math.floor(Date.now() / 1000) + 60 * 60,
+            },
+            process.env.JWT_SECRET,
+            { algorithm: 'RS256' }
+          );
           res.location(process.env.URL);
           return res.json({ user, token });
         });
