@@ -6,6 +6,7 @@ const createError = require('http-errors');
 const cookieParser = require('cookie-parser');
 
 const indexRouter = require(path.join(__dirname, 'routes/index'));
+const loginRouter = require(path.join(__dirname, 'routes/login'));
 
 const app = express();
 
@@ -30,6 +31,7 @@ require(path.join(__dirname, '/config/passport'));
 
 // [ ROUTES ]
 app.use('/', indexRouter);
+app.use('/login', loginRouter);
 
 // [ 404 ]
 app.use(function (req, res, next) {
