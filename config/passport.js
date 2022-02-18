@@ -2,16 +2,18 @@ const path = require('path');
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-// const User = require(path.join(__dirname, '../models/user'));
+const User = require(path.join(__dirname, '../models/user'));
 
 // [ DEFINE LOCAL STRATEGY ]
 passport.use(
   new LocalStrategy((username, password, done) => {
-    User.findOne({ username: username }, (err, user) => {
+    User.findOne({ username }, (err, user) => {
       if (err) {
+        console.log(`error: ${err}`);
         return done(err);
       }
       if (!user) {
+        console.log(`no user:`);
         return done(null, false, { message: 'Incorrect username' });
       }
       bcrypt.compare(password, user.password, (err, res) => {

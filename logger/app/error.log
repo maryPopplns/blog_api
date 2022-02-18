@@ -13,3 +13,7 @@
 {"level":"error","message":"❗ MongooseError: The `uri` parameter to `openUri()` must be a string, got \"undefined\". Make sure the first parameter to `mongoose.connect()` or `mongoose.createConnection()` is a string. ❗"}
 {"level":"error","message":"\ud83d\uded1 MongooseError: The `uri` parameter to `openUri()` must be a string, got \"undefined\". Make sure the first parameter to `mongoose.connect()` or `mongoose.createConnection()` is a string. \ud83d\uded1"}
 {"level":"error","message":"MongoNotConnectedError: MongoClient must be connected to perform this operation"}
+{"level":"error"}
+{"level":"error"}
+{"level":"error"}
+{"level":"error","message":"generating salt password is not defined","stack":"ReferenceError: password is not defined\n    at /Users/poppins/programming/top/blog_api/playground.js:12:15\n    at Immediate._onImmediate (/Users/poppins/programming/top/blog_api/node_modules/bcryptjs/dist/bcrypt.js:153:21)\n    at processImmediate (node:internal/timers:464:21)"}

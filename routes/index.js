@@ -1,8 +1,9 @@
 const path = require('path');
 const passport = require('passport');
 const express = require('express');
+const jwt = require('jsonwebtoken');
 const router = express.Router();
-
+const { check } = require('express-validator');
 const { logger } = require(path.join(__dirname, '../logger/logger.js'));
 
 /* GET home page. */
@@ -10,26 +11,36 @@ router.get('/', function (req, res, next) {
   res.end('newOne1');
 });
 
-router.post('/login', function (req, res, next) {
-  passport.authenticate('local', { session: false }, (err, user, info) => {
-    if (err || !user) {
-      return res.status(400).json({
-        message: 'Something is not right',
-        user: user,
-      });
-    }
-
-    req.login(user, { session: false }, (err) => {
-      if (err) {
-        res.send(err);
+router.post('/login', [
+  check('username').trim().escape(),
+  check('password').trim().escape(),
+  function (req, res, next) {
+    passport.authenticate(
+      'local',
+      { session: false },
+      function (error, user, info) {
+        if (error || !user) {
+          return res.status(400).json({
+            message: 'Something is not right',
+            user: user,
+          });
+        }
+        // if (error) {
+        //   return next(error);
+        // } else if (!user) {
+        //   return res.render('login', { message: info.message });
+        // } else {
+        //   req.logIn(user, function (err) {
+        //     if (error) {
+        //       return next(err);
+        //     } else {
+        //       return res.redirect('/');
+        //     }
+        //   });
+        // }
       }
-
-      // generate a signed son web token with the contents of user object and return it in the response
-
-      const token = jwt.sign(user, 'your_jwt_secret');
-      return res.json({ user, token });
-    });
-  })(req, res);
-});
+    )(req, res, next);
+  },
+]);
 
 module.exports = router;
