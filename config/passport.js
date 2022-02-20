@@ -1,9 +1,10 @@
+require('dotenv').config();
 const path = require('path');
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
-const ExtractJWT = passportJWT.ExtractJwt;
 const passportJWT = require('passport-jwt');
-const { loggers } = require('winston');
+const JWTStrategy = passportJWT.Strategy;
+const ExtractJWT = passportJWT.ExtractJwt;
 const LocalStrategy = require('passport-local').Strategy;
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const { logger } = require(path.join(__dirname, '../logger/logger'));
@@ -60,15 +61,15 @@ passport.use(
   new JWTStrategy(
     {
       jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
-      secretOrKey: 'your_jwt_secret',
+      secretOrKey: process.env.JWT_SECRET,
     },
-    function (jwtPayload, cb) {
-      logger.info('payload:', jwtPayload);
+    function (jwtPayload, done) {
+      console.log(`${jwtPayload}`);
       User.find({ id: jwtPayload.id })
         .then((user) => {
-          cb(null, user);
+          done(null, user);
         })
-        .catch((error) => cb(error));
+        .catch((error) => done(error));
     }
   )
 );

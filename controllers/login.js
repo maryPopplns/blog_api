@@ -36,7 +36,8 @@ exports.login_local_post = [
           // TODO redirect to home page, send user and token via cookies
           res.cookie('user', user.toJSON());
           res.cookie('token', token);
-          return res.redirect('/');
+          res.json({ token });
+          // return res.redirect('/');
         });
       }
     )(req, res, next);
@@ -72,3 +73,10 @@ exports.login_google_success_get = function (req, res, next) {
     return res.redirect('/');
   })(req, res, next);
 };
+
+exports.test = [
+  passport.authenticate('jwt', { session: false }),
+  function (req, res, next) {
+    res.end('test');
+  },
+];
