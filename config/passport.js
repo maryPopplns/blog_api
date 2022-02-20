@@ -3,8 +3,10 @@ const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const ExtractJWT = passportJWT.ExtractJwt;
 const passportJWT = require('passport-jwt');
+const { loggers } = require('winston');
 const LocalStrategy = require('passport-local').Strategy;
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const { logger } = require(path.join(__dirname, '../logger/logger'));
 
 const User = require(path.join(__dirname, '../models/user'));
 
@@ -61,14 +63,12 @@ passport.use(
       secretOrKey: 'your_jwt_secret',
     },
     function (jwtPayload, cb) {
-      //find the user in db if needed. This functionality may be omitted if you store everything you'll need in JWT payload.
-      return UserModel.findOneById(jwtPayload.id)
+      logger.info('payload:', jwtPayload);
+      User.find({ id: jwtPayload.id })
         .then((user) => {
-          return cb(null, user);
+          cb(null, user);
         })
-        .catch((err) => {
-          return cb(err);
-        });
+        .catch((error) => cb(error));
     }
   )
 );
