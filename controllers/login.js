@@ -31,11 +31,12 @@ exports.login_local_post = [
               data: user.toJSON(),
               exp: Math.floor(Date.now() / 1000) + 60 * 60,
             },
-            process.env.JWT_SECRET,
-            { algorithm: 'RS256' }
+            process.env.JWT_SECRET
           );
-          res.location(process.env.URL);
-          return res.json({ user, token });
+          // TODO redirect to home page, send user and token via cookies
+          res.cookie('user', user.toJSON());
+          res.cookie('token', token);
+          return res.redirect('/');
         });
       }
     )(req, res, next);
@@ -49,9 +50,25 @@ exports.login_google_get = passport.authenticate('google', {
 
 exports.login_google_success_get = function (req, res, next) {
   passport.authenticate('google', function (error, user, info) {
-    logger.info(`${error}`);
-    logger.info(`${user}`);
-    logger.info(`${info}`);
-    res.end();
+    const { id, username } = user;
+    if (error) {
+      return next(error);
+    }
+    // TODO create jwt token
+
+    const token = jwt.sign(
+      {
+        data: user.toJSON(),
+        exp: Math.floor(Date.now() / 1000) + 60 * 60,
+      },
+      process.env.JWT_SECRET
+    );
+    // TODO clear cookies that we are setting
+    //
+    // TODO redirect to home page, send user and token via cookies
+    res.cookie('id', id);
+    res.cookie('username', username);
+    res.cookie('token', token);
+    return res.redirect('/');
   })(req, res, next);
 };
