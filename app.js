@@ -10,6 +10,8 @@ const loginRouter = require(path.join(__dirname, 'routes/login'));
 
 const app = express();
 
+// TODO enable CORS
+
 // [ MONGO CONNECTION ]
 require(path.join(__dirname, '/config/database'));
 
