@@ -305,3 +305,7 @@
 ::1 - - [21/Feb/2022:14:51:26 +0000] "POST /login/local HTTP/1.1" 400 49 "-" "PostmanRuntime/7.29.0"
 ::1 - - [21/Feb/2022:14:53:10 +0000] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.80 Safari/537.36"
 ::1 - - [21/Feb/2022:14:53:15 +0000] "GET /login/afdasfd HTTP/1.1" 200 33 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.80 Safari/537.36"
+::1 - - [21/Feb/2022:15:04:08 +0000] "GET /login/google HTTP/1.1" 302 0 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.80 Safari/537.36"
+::1 - - [21/Feb/2022:15:07:07 +0000] "GET /login/google HTTP/1.1" 302 0 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.80 Safari/537.36"
+::1 - - [21/Feb/2022:15:11:26 +0000] "GET / HTTP/1.1" 200 - "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.80 Safari/537.36"
+::1 - - [21/Feb/2022:15:12:53 +0000] "GET /login/google?response_type=code&client_id=36976820112-sf9vkl1hqad8hk38m80v7fl54jksah7p.apps.googleusercontent.com&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2F HTTP/1.1" 302 0 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Postman/9.12.2 Chrome/91.0.4472.164 Electron/13.6.7 Safari/537.36"
