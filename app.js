@@ -29,11 +29,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 // [ AUTHENTICATION ]
 require(path.join(__dirname, '/config/passport'));
 
-app.use((req, res, next) => {
-  console.log(req.user);
-  next();
-});
-
 // [ ROUTES ]
 app.use('/', indexRouter);
 app.use('/login', loginRouter);
@@ -44,13 +39,9 @@ app.use(function (req, res, next) {
 });
 
 // [ ERROR HANDLING ]
-app.use(function (err, req, res, next) {
-  // TODO create error handling
-  //
-  // res.locals.message = err.message;
-  // res.locals.error = req.app.get('env') === 'development' ? err : {};
-  // res.status(err.status || 500);
-  // res.render('error');
+app.use(function (error, req, res, next) {
+  res.status(err.status || 500);
+  res.json({ error });
 });
 
 module.exports = app;
