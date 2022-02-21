@@ -3,7 +3,7 @@ const path = require('path');
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
 const { check } = require('express-validator');
-const { logger } = require(path.join(__dirname, '../logger/logger'));
+const blogPost = require(path.join(__dirname, '../models/blogPost'));
 
 // [ CREAT BLOG POST ]
 exports.createPost = [
@@ -17,12 +17,28 @@ exports.createPost = [
         if (error) {
           next(error);
         } else if (!user) {
-          res.json({ message: 'please log in to create posts' });
+          res.json({ message: 'Log in to create posts' });
         } else {
-          res.json({ user: user[0] });
+          const { title, body } = req.body;
+          const author = user[0].id;
 
-          // TODO create the blog post and save it
-          // TODO respond that the blog was saved successfully
+          blogPost.create(
+            {
+              author,
+              title,
+              body,
+            },
+            function (error, user) {
+              if (error) {
+                res.json({
+                  message: 'Error entering into database, please try again',
+                });
+              } else {
+                res.json({ message: 'Success' });
+                // TODO respond that the blog was saved successfully
+              }
+            }
+          );
         }
       }
     )(req, res);
