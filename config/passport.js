@@ -3,6 +3,7 @@ const path = require('path');
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const passportJWT = require('passport-jwt');
+const e = require('express');
 const JWTStrategy = passportJWT.Strategy;
 const ExtractJWT = passportJWT.ExtractJwt;
 const LocalStrategy = require('passport-local').Strategy;
@@ -67,7 +68,11 @@ passport.use(
       console.log(`${jwtPayload}`);
       User.find({ id: jwtPayload.id })
         .then((user) => {
-          done(null, user);
+          if (!user) {
+            done(null, false);
+          } else {
+            done(null, user);
+          }
         })
         .catch((error) => done(error));
     }

@@ -74,9 +74,15 @@ exports.login_google_success_get = function (req, res, next) {
   })(req, res, next);
 };
 
-exports.test = [
-  passport.authenticate('jwt', { session: false }),
-  function (req, res, next) {
-    res.end('test');
-  },
-];
+exports.test = function (req, res, next) {
+  passport.authenticate(
+    'jwt',
+    { session: false },
+    function (error, user, info) {
+      if (!user) {
+        res.end('no user');
+      }
+      res.end('user');
+    }
+  )(req, res);
+};

@@ -29,6 +29,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 // [ AUTHENTICATION ]
 require(path.join(__dirname, '/config/passport'));
 
+app.use((req, res, next) => {
+  console.log(req.user);
+  next();
+});
+
 // [ ROUTES ]
 app.use('/', indexRouter);
 app.use('/login', loginRouter);
