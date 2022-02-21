@@ -30,13 +30,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // [ CLEAR COOKIES ]
-app.use((req, res, next) => {
-  res.clearCookie('token');
-});
-app.use((req, res, next) => {
-  console.log(req.cookies);
-  next();
-});
+// app.use((req, res, next) => {
+//   res.clearCookie('token');
+//   next();
+// });
 
 // [ AUTHENTICATION ]
 require(path.join(__dirname, '/config/passport'));

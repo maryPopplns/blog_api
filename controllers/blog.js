@@ -44,3 +44,30 @@ exports.createPost = [
     )(req, res);
   },
 ];
+
+exports.updatePost = [
+  check('title').trim().escape(),
+  check('body').trim().escape(),
+  function (req, res, next) {
+    passport.authenticate(
+      'jwt',
+      { session: false },
+      function (error, user, info) {
+        if (error) {
+          next(error);
+        } else if (!user) {
+          res.json({ message: 'Log in to create posts' });
+        } else {
+          res.json({ message: 'logged in' });
+          // User.findOneAndUpdate(query, update, options, function (error, result) {
+          //   if (error) {
+          //     done(error);
+          //   } else {
+          //     done(null, result);
+          //   }
+          // });
+        }
+      }
+    )(req, res);
+  },
+];
