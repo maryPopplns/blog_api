@@ -8,7 +8,7 @@
     "dbstop": "brew services stop mongodb-community@5.0",
     "dbstart": "brew services start mongodb-community@5.0",
     "newsecret": "node utils/secretGenerator.js",
-    "git": "git add . && git commit && git push origin $(git rev-parse --abbrev-ref HEAD) && echo '\n' && echo $(tput setaf 2)'commited: ' $(tput setaf 1)$(date) && echo '\n'"
+    "git": "git add . && git commit && git push origin $(git rev-parse --abbrev-ref HEAD) && echo '\n' && echo $(tput setaf 2)'committed: ' $(tput setaf 1)$(date) && echo '\n'"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

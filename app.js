@@ -7,6 +7,7 @@ const cookieParser = require('cookie-parser');
 
 const indexRouter = require(path.join(__dirname, 'routes/index'));
 const loginRouter = require(path.join(__dirname, 'routes/login'));
+const blogRouter = require(path.join(__dirname, 'routes/blog'));
 
 const app = express();
 
@@ -34,6 +35,7 @@ require(path.join(__dirname, '/config/passport'));
 // [ ROUTES ]
 app.use('/', indexRouter);
 app.use('/login', loginRouter);
+app.use('/blog', blogRouter);
 
 // [ 404 ]
 app.use(function (req, res, next) {
@@ -42,7 +44,7 @@ app.use(function (req, res, next) {
 
 // [ ERROR HANDLING ]
 app.use(function (error, req, res, next) {
-  res.status(err.status || 500);
+  res.status(error.status || 500);
   res.json({ error });
 });
 
