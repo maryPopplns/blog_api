@@ -6,7 +6,7 @@ const blogPostSchema = new Schema({
   author: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   title: { type: String, required: true },
   body: { type: String, required: true },
-  likes: Number,
+  likes: { type: Number, default: 0 },
   comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
   date: { type: Date, default: Date.now },
 });
