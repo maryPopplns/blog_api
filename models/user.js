@@ -5,9 +5,7 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema({
   username: { type: String, required: true },
   password: { type: String },
-  likes: { type: Schema.Types.ObjectId, ref: 'BlogPost' },
+  likes: [{ type: Schema.Types.ObjectId, ref: 'BlogPost' }],
 });
-
-// TODO create full user
 
 module.exports = mongoose.model('User', userSchema);
