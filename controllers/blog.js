@@ -17,11 +17,13 @@ exports.createPost = [
         if (error) {
           next(error);
         } else if (!user) {
+          // not logged in
           res.json({ message: 'Log in to create posts' });
         } else {
           const { title, body } = req.body;
           const author = user._id;
 
+          // logged in
           BlogPost.create(
             {
               author,
@@ -56,6 +58,7 @@ exports.updatePost = [
         if (error) {
           next(error);
         } else if (!user) {
+          // not logged in
           res.json({ message: 'Log in to create posts' });
         } else {
           const userID = user._id;
@@ -63,12 +66,14 @@ exports.updatePost = [
             if (error) {
               next(error);
             } else if (post.author.toString() !== userID) {
+              // if user !== post author
               res.json({ message: 'Unauthorized' });
             } else {
               const { title, body } = req.body;
               const query = post.id;
               const update = { title, body };
               const options = { upsert: true, new: true };
+              // if user === post author, update the post
               BlogPost.findByIdAndUpdate(
                 query,
                 update,
