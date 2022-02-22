@@ -6,7 +6,6 @@ const { check } = require('express-validator');
 const BlogPost = require(path.join(__dirname, '../models/blogPost'));
 
 // [ CREATE BLOG POST ]
-
 exports.createPost = [
   check('title').trim().escape(),
   check('body').trim().escape(),
@@ -45,6 +44,7 @@ exports.createPost = [
   },
 ];
 
+// [ UPDATE BLOG POST ]
 exports.updatePost = [
   check('title').trim().escape(),
   check('body').trim().escape(),
@@ -59,32 +59,37 @@ exports.updatePost = [
           res.json({ message: 'Log in to create posts' });
         } else {
           const userID = user[0].id;
-          let currentBlogPost;
+          let updateBlogPost;
           // TODO search blogposts using blogID
           // TODO populate the author for the blogpost
-          BlogPost.findById(req.params.id)
-            .then((result) => {
-              currentBlogPost = result;
-            })
-            .catch((error) => next(error));
-          console.log(currentBlogPost);
-          res.end();
+          BlogPost.findById(req.params.id, function (error, post) {
+            if (error) {
+              next(error);
+            } else if (post.author.toString() !== userID) {
+              res.status(401).json({ message: 'Unauthorized' });
+            } else {
+              const { title, body } = req.body;
 
-          // BlogPost.findOneAndUpdate(
-          // const query = { username: email };
-          // const update = { username: email };
-          // const options = { upsert: true, new: true };
-          //   query,
-          //   update,
-          //   options,
-          //   function (error, result) {
-          //     if (error) {
-          //       done(error);
-          //     } else {
-          //       done(null, result);
-          //     }
-          //   }
-          // );
+              const query = post.id;
+              const update = { title, body };
+              const options = { upsert: true, new: true };
+              BlogPost.findByIdAndUpdate(
+                query,
+                update,
+                options,
+                function (error, result) {
+                  if (error) {
+                    res.json({
+                      message: 'Error entering into database, please try again',
+                      error: error,
+                    });
+                  } else {
+                    res.json({ message: 'success' });
+                  }
+                }
+              );
+            }
+          });
         }
       }
     )(req, res);

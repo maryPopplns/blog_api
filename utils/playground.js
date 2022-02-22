@@ -57,5 +57,5 @@ async function createBlogPost() {
   );
 }
 
-// createUser()
-createBlogPost();
+createUser();
+// createBlogPost();
