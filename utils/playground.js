@@ -11,13 +11,13 @@ function createUser() {
     if (error) {
       return logger.error('generating salt error: ', error);
     }
-    bcrypt.hash('123', salt, function (error, hash) {
+    bcrypt.hash('1234', salt, function (error, hash) {
       if (error) {
         return logger.error('generating hash error: ', error);
       }
       User.create(
         {
-          username: 'spencer',
+          username: 'spencer1',
           password: hash,
         },
         function (error, user) {
@@ -31,30 +31,6 @@ function createUser() {
       );
     });
   });
-}
-
-async function createBlogPost() {
-  let userID;
-  await User.find()
-    .then((user) => {
-      userID = user;
-    })
-    .catch((error) => logger.error(error));
-  await BlogPost.create(
-    {
-      author: userID[0].id,
-      title: 'this is the title',
-      body: 'this is the body',
-    },
-    function (error, blogPost) {
-      if (error) {
-        mongoose.connection.close();
-        return logger.error(`${error}`);
-      }
-      logger.info('success', `${blogPost}`);
-      mongoose.connection.close();
-    }
-  );
 }
 
 createUser();

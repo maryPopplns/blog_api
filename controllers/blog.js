@@ -20,7 +20,7 @@ exports.createPost = [
           res.json({ message: 'Log in to create posts' });
         } else {
           const { title, body } = req.body;
-          const author = user[0].id;
+          const author = user._id;
 
           BlogPost.create(
             {
@@ -58,37 +58,34 @@ exports.updatePost = [
         } else if (!user) {
           res.json({ message: 'Log in to create posts' });
         } else {
-          const userID = user[0].id;
-          let updateBlogPost;
-          // TODO search blogposts using blogID
-          // TODO populate the author for the blogpost
+          const userID = user._id;
           BlogPost.findById(req.params.id, function (error, post) {
-            if (error) {
-              next(error);
-            } else if (post.author.toString() !== userID) {
-              res.status(401).json({ message: 'Unauthorized' });
-            } else {
-              const { title, body } = req.body;
-
-              const query = post.id;
-              const update = { title, body };
-              const options = { upsert: true, new: true };
-              BlogPost.findByIdAndUpdate(
-                query,
-                update,
-                options,
-                function (error, result) {
-                  if (error) {
-                    res.json({
-                      message: 'Error entering into database, please try again',
-                      error: error,
-                    });
-                  } else {
-                    res.json({ message: 'success' });
-                  }
-                }
-              );
-            }
+            res.json({ post });
+            // if (error) {
+            //   next(error);
+            // } else if (post.author.toString() !== userID) {
+            //   res.json({ message: 'Unauthorized' });
+            // } else {
+            //   const { title, body } = req.body;
+            //   const query = post.id;
+            //   const update = { title, body };
+            //   const options = { upsert: true, new: true };
+            // BlogPost.findByIdAndUpdate(
+            //   query,
+            //   update,
+            //   options,
+            //   function (error, result) {
+            //     if (error) {
+            //       res.json({
+            //         message: 'Error entering into database, please try again',
+            //         error: error,
+            //       });
+            //     } else {
+            //       res.json({ message: 'success' });
+            //     }
+            //   }
+            // );
+            // }
           });
         }
       }

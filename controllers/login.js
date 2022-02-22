@@ -17,8 +17,7 @@ exports.login_local_post = [
         // error || !user
         if (error || !user) {
           return res.status(400).json({
-            message: 'Something is not right',
-            user: user,
+            message: info.message,
           });
         }
         // user found

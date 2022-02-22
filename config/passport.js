@@ -65,10 +65,11 @@ passport.use(
       secretOrKey: process.env.JWT_SECRET,
     },
     function (jwtPayload, done) {
-      User.find({ id: jwtPayload.id })
+      const id = jwtPayload.data._id;
+      User.findById(id)
         .then((user) => {
           if (!user) {
-            done(null, false);
+            done(null, false, 'no user');
           } else {
             done(null, user);
           }
