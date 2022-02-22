@@ -3,9 +3,10 @@ const path = require('path');
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
 const { check } = require('express-validator');
-const blogPost = require(path.join(__dirname, '../models/blogPost'));
+const BlogPost = require(path.join(__dirname, '../models/blogPost'));
 
-// [ CREAT BLOG POST ]
+// [ CREATE BLOG POST ]
+
 exports.createPost = [
   check('title').trim().escape(),
   check('body').trim().escape(),
@@ -22,7 +23,7 @@ exports.createPost = [
           const { title, body } = req.body;
           const author = user[0].id;
 
-          blogPost.create(
+          BlogPost.create(
             {
               author,
               title,
@@ -35,7 +36,6 @@ exports.createPost = [
                 });
               } else {
                 res.json({ message: 'Success' });
-                // TODO respond that the blog was saved successfully
               }
             }
           );
@@ -58,14 +58,33 @@ exports.updatePost = [
         } else if (!user) {
           res.json({ message: 'Log in to create posts' });
         } else {
-          res.json({ message: 'logged in' });
-          // User.findOneAndUpdate(query, update, options, function (error, result) {
-          //   if (error) {
-          //     done(error);
-          //   } else {
-          //     done(null, result);
+          const userID = user[0].id;
+          let currentBlogPost;
+          // TODO search blogposts using blogID
+          // TODO populate the author for the blogpost
+          BlogPost.findById(req.params.id)
+            .then((result) => {
+              currentBlogPost = result;
+            })
+            .catch((error) => next(error));
+          console.log(currentBlogPost);
+          res.end();
+
+          // BlogPost.findOneAndUpdate(
+          // const query = { username: email };
+          // const update = { username: email };
+          // const options = { upsert: true, new: true };
+          //   query,
+          //   update,
+          //   options,
+          //   function (error, result) {
+          //     if (error) {
+          //       done(error);
+          //     } else {
+          //       done(null, result);
+          //     }
           //   }
-          // });
+          // );
         }
       }
     )(req, res);
