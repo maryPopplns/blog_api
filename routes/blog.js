@@ -8,6 +8,6 @@ const { createPost, updatePost, deletePost } = require(path.join(
 
 router.post('/create', createPost);
 router.post('/:id/update', updatePost);
-router.post('/:id/delete', deletePost);
+router.delete('/:id/delete', deletePost);
 
 module.exports = router;

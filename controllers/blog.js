@@ -96,3 +96,7 @@ exports.updatePost = [
     )(req, res);
   },
 ];
+
+exports.deletePost = function (req, res, next) {
+  //
+};
