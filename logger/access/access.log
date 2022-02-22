@@ -543,3 +543,6 @@
 ::1 - - [22/Feb/2022:17:58:53 +0000] "POST /blog/621518f3e5978d51ea9fdfd5/update HTTP/1.1" 200 37 "-" "PostmanRuntime/7.29.0"
 ::1 - - [22/Feb/2022:18:00:39 +0000] "POST /blog/621518f3e5978d51ea9fdfd5/update HTTP/1.1" 200 13 "-" "PostmanRuntime/7.29.0"
 ::1 - - [22/Feb/2022:18:00:59 +0000] "POST /blog/6215238075a5d73690ac6048/update HTTP/1.1" 200 177 "-" "PostmanRuntime/7.29.0"
+::1 - - [22/Feb/2022:18:03:58 +0000] "POST /login/local HTTP/1.1" 302 23 "-" "PostmanRuntime/7.29.0"
+::1 - - [22/Feb/2022:18:03:58 +0000] "GET / HTTP/1.1" 200 - "http://localhost:3000/login/local" "PostmanRuntime/7.29.0"
+::1 - - [22/Feb/2022:18:04:06 +0000] "POST /blog/6215238075a5d73690ac6048/update HTTP/1.1" 200 26 "-" "PostmanRuntime/7.29.0"

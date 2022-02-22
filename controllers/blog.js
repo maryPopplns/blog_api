@@ -60,32 +60,31 @@ exports.updatePost = [
         } else {
           const userID = user._id;
           BlogPost.findById(req.params.id, function (error, post) {
-            res.json({ post });
-            // if (error) {
-            //   next(error);
-            // } else if (post.author.toString() !== userID) {
-            //   res.json({ message: 'Unauthorized' });
-            // } else {
-            //   const { title, body } = req.body;
-            //   const query = post.id;
-            //   const update = { title, body };
-            //   const options = { upsert: true, new: true };
-            // BlogPost.findByIdAndUpdate(
-            //   query,
-            //   update,
-            //   options,
-            //   function (error, result) {
-            //     if (error) {
-            //       res.json({
-            //         message: 'Error entering into database, please try again',
-            //         error: error,
-            //       });
-            //     } else {
-            //       res.json({ message: 'success' });
-            //     }
-            //   }
-            // );
-            // }
+            if (error) {
+              next(error);
+            } else if (post.author.toString() !== userID) {
+              res.json({ message: 'Unauthorized' });
+            } else {
+              const { title, body } = req.body;
+              const query = post.id;
+              const update = { title, body };
+              const options = { upsert: true, new: true };
+              BlogPost.findByIdAndUpdate(
+                query,
+                update,
+                options,
+                function (error, result) {
+                  if (error) {
+                    res.json({
+                      message: 'Error entering into database, please try again',
+                      error: error,
+                    });
+                  } else {
+                    res.json({ message: 'success' });
+                  }
+                }
+              );
+            }
           });
         }
       }
