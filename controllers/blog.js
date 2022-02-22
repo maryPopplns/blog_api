@@ -1,6 +1,5 @@
 require('dotenv').config();
 const path = require('path');
-const jwt = require('jsonwebtoken');
 const passport = require('passport');
 const { check } = require('express-validator');
 const { logger } = require(path.join(__dirname, '../logger/logger.js'));
@@ -98,12 +97,16 @@ exports.updatePost = [
   },
 ];
 
+function deletePostHandler(error, user, info, req, res) {
+  const postID = req.params.id;
+  // delete post
+  res.json({ user });
+}
+
 exports.deletePost = function (req, res, next) {
   passport.authenticate(
     'jwt',
     { session: false },
-    function (error, user, info) {
-      logger.info(`${user}`);
-    }
+    deletePostHandler(req, res)
   )(req, res);
 };
