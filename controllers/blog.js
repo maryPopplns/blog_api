@@ -3,6 +3,7 @@ const path = require('path');
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
 const { check } = require('express-validator');
+const { logger } = require(path.join(__dirname, '../logger/logger.js'));
 const BlogPost = require(path.join(__dirname, '../models/blogPost'));
 
 // [ CREATE BLOG POST ]
@@ -98,5 +99,11 @@ exports.updatePost = [
 ];
 
 exports.deletePost = function (req, res, next) {
-  //
+  passport.authenticate(
+    'jwt',
+    { session: false },
+    function (error, user, info) {
+      logger.info(`${user}`);
+    }
+  )(req, res);
 };
