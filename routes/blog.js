@@ -7,7 +7,7 @@ const { createPost, updatePost, deletePost } = require(path.join(
 ));
 
 router.post('/create', createPost);
-router.post('/:id/update', updatePost);
+router.put('/:id/update', updatePost);
 router.delete('/:id/delete', deletePost);
 
 module.exports = router;

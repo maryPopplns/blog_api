@@ -1,5 +1,6 @@
 require('dotenv').config();
 const path = require('path');
+const async = require('async');
 const passport = require('passport');
 const { check } = require('express-validator');
 const { logger } = require(path.join(__dirname, '../logger/logger.js'));
@@ -17,12 +18,10 @@ exports.createPost = [
         if (error) {
           next(error);
         } else if (!user) {
-          // not logged in
-          res.json({ message: 'Log in to create posts' });
+          res.status(401).json({ message: 'unauthorized' });
         } else {
           const { title, body } = req.body;
-          const author = user._id;
-
+          const author = user.id;
           // logged in
           BlogPost.create(
             {
@@ -32,11 +31,9 @@ exports.createPost = [
             },
             function (error, user) {
               if (error) {
-                res.json({
-                  message: 'Error entering into database, please try again',
-                });
+                next(error);
               } else {
-                res.json({ message: 'Success' });
+                res.status(201).json({ message: 'Post created' });
               }
             }
           );
@@ -58,34 +55,29 @@ exports.updatePost = [
         if (error) {
           next(error);
         } else if (!user) {
-          // not logged in
-          res.json({ message: 'Log in to create posts' });
+          res.status(401).json({ message: 'unauthorized' });
         } else {
-          const userID = user._id;
+          const userID = user.id;
           BlogPost.findById(req.params.id, function (error, post) {
             if (error) {
               next(error);
             } else if (post.author.toString() !== userID) {
-              // if user !== post author
-              res.json({ message: 'Unauthorized' });
+              res.status(403).json({ message: 'forbidden' });
             } else {
+              // logged in
               const { title, body } = req.body;
               const query = post.id;
               const update = { title, body };
               const options = { upsert: true, new: true };
-              // if user === post author, update the post
               BlogPost.findByIdAndUpdate(
                 query,
                 update,
                 options,
                 function (error, result) {
                   if (error) {
-                    res.json({
-                      message: 'Error entering into database, please try again',
-                      error: error,
-                    });
+                    next(error);
                   } else {
-                    res.json({ message: 'success' });
+                    res.status(201).json({ message: 'Post updated' });
                   }
                 }
               );
@@ -97,16 +89,43 @@ exports.updatePost = [
   },
 ];
 
-function deletePostHandler(error, user, info, req, res) {
-  const postID = req.params.id;
-  // delete post
-  res.json({ user });
-}
-
 exports.deletePost = function (req, res, next) {
-  passport.authenticate(
-    'jwt',
-    { session: false },
-    deletePostHandler(req, res)
-  )(req, res);
+  async.waterfall(
+    [
+      function (done) {
+        passport.authenticate(
+          'jwt',
+          { session: false },
+          function (error, user) {
+            if (error) {
+              next(error);
+            } else if (!user) {
+              res.status(401).json({ message: 'unauthorized' });
+            } else {
+              done(null, user);
+            }
+          }
+        )(req, res);
+      },
+      function (user, done) {
+        // search for the blogpost to delete and get the author id
+        BlogPost.findById(req.params.id)
+          .then((blogPost) => {
+            const blogAuthor = blogPost.author.toString();
+            if (user.id !== blogAuthor) {
+              res.status(403).json({ message: 'forbidden' });
+            } else {
+              done(null, user);
+            }
+          })
+          .catch((error) => {
+            next(error);
+          });
+      },
+    ],
+
+    function (error, result) {
+      res.json({ result });
+    }
+  );
 };
