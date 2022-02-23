@@ -33,5 +33,23 @@ function createUser() {
   });
 }
 
-createUser();
+// createUser();
 // createBlogPost();
+
+(function virtuals() {
+  const query = '621672c4a13b66bea62d4b49';
+  const update = {
+    $inc: { likes: 1 },
+  };
+  const options = { upsert: true, new: true };
+  // Find the document
+  BlogPost.findOneAndUpdate(query, update, options, function (error, result) {
+    if (error) {
+      logger.error(`${error}`);
+      mongoose.connection.close();
+    } else {
+      logger.info(result);
+      mongoose.connection.close();
+    }
+  });
+})();

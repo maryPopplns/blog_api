@@ -130,3 +130,11 @@ exports.deletePost = function (req, res, next) {
     }
   );
 };
+
+exports.incrementPostLikes = function (req, res, next) {
+  res.json({ inc: 'inc' });
+};
+
+exports.decrementPostLikes = function (req, res, next) {
+  res.json({ dec: 'dec' });
+};

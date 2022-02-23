@@ -17,3 +17,22 @@
 {"level":"error"}
 {"level":"error"}
 {"level":"error","message":"generating salt password is not defined","stack":"ReferenceError: password is not defined\n    at /Users/poppins/programming/top/blog_api/playground.js:12:15\n    at Immediate._onImmediate (/Users/poppins/programming/top/blog_api/node_modules/bcryptjs/dist/bcrypt.js:153:21)\n    at processImmediate (node:internal/timers:464:21)"}
+{"level":"error","message":"Not Found"}
+{"level":"error","message":"Not Found"}
+{"level":"error"}
+{"level":"error"}
+{"level":"error"}
+{"level":"error","message":"TypeError: blog.inc is not a function"}
+{"isImmutableError":false,"level":"error","path":"id"}
+{"level":"error","message":"StrictModeError: Path \"id\" is not in schema, strict mode is `true`, and upsert is `true`."}
+{"level":"error","message":"CastError: Cast to ObjectId failed for value \"1\" (type number) at path \"likes\""}
+{"level":"error","message":"CastError: Cast to ObjectId failed for value \"1\" (type number) at path \"likes\""}
+{"level":"error","message":"CastError: Cast to ObjectId failed for value \"1\" (type number) at path \"likes\""}
+{"level":"error","message":"CastError: Cast to ObjectId failed for value \"1\" (type number) at path \"likes\""}
+{"level":"error","message":"CastError: Cast to ObjectId failed for value \"1\" (type number) at path \"likes\""}
+{"level":"error","message":"CastError: Cast to ObjectId failed for value \"1\" (type string) at path \"likes\""}
+{"level":"error","message":"CastError: Cast to ObjectId failed for value \"1\" (type string) at path \"likes\""}
+{"level":"error","message":"CastError: Cast to ObjectId failed for value \"1\" (type string) at path \"likes\""}
+{"level":"error","message":"CastError: Cast to ObjectId failed for value \"1\" (type number) at path \"likes\""}
+{"level":"error","message":"CastError: Cast to ObjectId failed for value \"1\" (type number) at path \"likes\""}
+{"level":"error","message":"CastError: Cast to ObjectId failed for value \"1\" (type number) at path \"likes\""}
