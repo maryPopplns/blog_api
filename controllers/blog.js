@@ -57,11 +57,10 @@ exports.updatePost = [
         } else if (!user) {
           res.status(401).json({ message: 'unauthorized' });
         } else {
-          const userID = user.id;
           BlogPost.findById(req.params.id, function (error, post) {
             if (error) {
               next(error);
-            } else if (post.author.toString() !== userID) {
+            } else if (post.author.toString() !== user.id) {
               res.status(403).json({ message: 'forbidden' });
             } else {
               // logged in
@@ -108,14 +107,12 @@ exports.deletePost = function (req, res, next) {
         )(req, res);
       },
       function (user, done) {
-        // search for the blogpost to delete and get the author id
         BlogPost.findById(req.params.id)
           .then((blogPost) => {
-            const blogAuthor = blogPost.author.toString();
-            if (user.id !== blogAuthor) {
+            if (user.id !== blogPost.author.toString()) {
               res.status(403).json({ message: 'forbidden' });
             } else {
-              done(null, user);
+              done(null);
             }
           })
           .catch((error) => {
@@ -123,9 +120,13 @@ exports.deletePost = function (req, res, next) {
           });
       },
     ],
-
-    function (error, result) {
-      res.json({ result });
+    function () {
+      // logged in
+      BlogPost.findByIdAndDelete(req.params.id)
+        .then(() => {
+          res.status(201).json({ message: 'post deleted' });
+        })
+        .catch((error) => next(error));
     }
   );
 };

@@ -1,9 +1,10 @@
 const fs = require('fs');
 const path = require('path');
-const logger = require('morgan');
+const requestLogger = require('morgan');
 const express = require('express');
 const createError = require('http-errors');
 const cookieParser = require('cookie-parser');
+const { logger } = require(path.join(__dirname, '/logger/logger.js'));
 
 const indexRouter = require(path.join(__dirname, 'routes/index'));
 const loginRouter = require(path.join(__dirname, 'routes/login'));
@@ -21,7 +22,7 @@ const stream = fs.createWriteStream(
   path.join(__dirname, 'logger/access/access.log'),
   { flags: 'a' }
 );
-app.use(logger('combined', { stream }));
+app.use(requestLogger('combined', { stream }));
 
 // [ MIDDLEWARE ]
 app.use(express.json());
@@ -50,6 +51,7 @@ app.use(function (req, res, next) {
 
 // [ ERROR HANDLING ]
 app.use(function (error, req, res, next) {
+  logger.error(error);
   res.status(error.status || 500);
   res.json({ error });
 });
