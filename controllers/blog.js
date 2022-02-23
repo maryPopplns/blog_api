@@ -5,6 +5,7 @@ const passport = require('passport');
 const { check } = require('express-validator');
 const { logger } = require(path.join(__dirname, '../logger/logger.js'));
 const BlogPost = require(path.join(__dirname, '../models/blogPost'));
+const User = require(path.join(__dirname, '../models/user'));
 
 // [ CREATE BLOG POST ]
 exports.createPost = [
@@ -18,7 +19,7 @@ exports.createPost = [
         if (error) {
           next(error);
         } else if (!user) {
-          res.status(401).json({ message: 'unauthorized' });
+          res.status(401).json({ message: 'Unauthorized' });
         } else {
           const { title, body } = req.body;
           const author = user.id;
@@ -55,13 +56,13 @@ exports.updatePost = [
         if (error) {
           next(error);
         } else if (!user) {
-          res.status(401).json({ message: 'unauthorized' });
+          res.status(401).json({ message: 'Unauthorized' });
         } else {
           BlogPost.findById(req.params.id, function (error, post) {
             if (error) {
               next(error);
             } else if (post.author.toString() !== user.id) {
-              res.status(403).json({ message: 'forbidden' });
+              res.status(403).json({ message: 'Forbidden' });
             } else {
               // logged in
               const { title, body } = req.body;
@@ -100,7 +101,7 @@ exports.deletePost = function (req, res, next) {
             if (error) {
               next(error);
             } else if (!user) {
-              res.status(401).json({ message: 'unauthorized' });
+              res.status(401).json({ message: 'Unauthorized' });
             } else {
               done(null, user);
             }
@@ -111,7 +112,7 @@ exports.deletePost = function (req, res, next) {
         BlogPost.findById(req.params.id)
           .then((blogPost) => {
             if (user.id !== blogPost.author.toString()) {
-              res.status(403).json({ message: 'forbidden' });
+              res.status(403).json({ message: 'Forbidden' });
             } else {
               done(null);
             }
@@ -144,7 +145,7 @@ exports.incrementPostLikes = function (req, res, next) {
             if (error) {
               next(error);
             } else if (!user) {
-              res.status(401).json({ message: 'unauthorized' });
+              res.status(401).json({ message: 'Unauthorized' });
             } else {
               done(null, user);
             }
@@ -152,29 +153,41 @@ exports.incrementPostLikes = function (req, res, next) {
         )(req, res);
       },
       function (user, done) {
-        const { id } = user;
-        const postID = req.params.id;
-        res.json({ user, postID });
-        // TODO check if the current user has liked the current page or not
+        const blogID = req.params.id;
+        if (user.likes.includes(blogID)) {
+          res.status(400).json({ message: 'User has liked post' });
+        } else {
+          done(null, user);
+        }
+      },
+      function (user, done) {
+        // increment blogpost
+        BlogPost.findOneAndUpdate(
+          req.params.id,
+          { $inc: { likes: 1 } },
+          { upsert: true, new: true },
+          function (error, result) {
+            if (error) {
+              next(error);
+            } else {
+              done(null, user);
+            }
+          }
+        );
       },
     ],
-    function () {
-      res.end();
-      // TODO if the user has liked the page, then return a negative response 400
-      // TODO if the user hasnt liked the page, the ruturn 201
-      // TODO add the blogpost to the list of likes on the user model
-      //
-      //
-      // const query = req.params.id;
-      // const update = {
-      //   $inc: { likes: 1 },
-      // };
+    function (error, user) {
+      // add blogid to user likes
+      // const query = { _id: user.id };
+      // const update = { $push: { likes: req.params.id } };
       // const options = { upsert: true, new: true };
-      // BlogPost.findOneAndUpdate(query, update, options, function (error, result) {
+      // Find the document
+      res.json({ user });
+      // User.findOneAndUpdate(query, update, options, function (error, result) {
       //   if (error) {
       //     next(error);
       //   } else {
-      //     res.status(201).json({ message: 'Liked' });
+      //     res.status(201).json({ message: 'Post has been liked' });
       //   }
       // });
     }

@@ -36,3 +36,34 @@
 {"level":"error","message":"CastError: Cast to ObjectId failed for value \"1\" (type number) at path \"likes\""}
 {"level":"error","message":"CastError: Cast to ObjectId failed for value \"1\" (type number) at path \"likes\""}
 {"level":"error","message":"CastError: Cast to ObjectId failed for value \"1\" (type number) at path \"likes\""}
+{"isImmutableError":false,"level":"error","path":"id"}
+{"level":"error","message":"StrictModeError: Path \"id\" is not in schema, strict mode is `true`, and upsert is `true`."}
+{"level":"error","message":"StrictModeError: Path \"id\" is not in schema, strict mode is `true`, and upsert is `true`."}
+{"level":"error","message":"MongoServerError: $pullAll requires an array argument but was given a objectId"}
+{"code":"ERR_HTTP_HEADERS_SENT","level":"error"}
+{"code":"ERR_HTTP_HEADERS_SENT","level":"error"}
+{"code":"ERR_HTTP_HEADERS_SENT","level":"error"}
+{"code":"ERR_HTTP_HEADERS_SENT","level":"error"}
+{"code":"ERR_HTTP_HEADERS_SENT","level":"error"}
+{"level":"error"}
+{"level":"error"}
+{"level":"error"}
+{"level":"error"}
+{"level":"error"}
+{"level":"error"}
+{"level":"error"}
+{"level":"error"}
+{"level":"error"}
+{"level":"error"}
+{"level":"error"}
+{"level":"error"}
+{"level":"error"}
+{"level":"error","message":"TypeError: Cannot read properties of undefined (reading 'id')"}
+{"level":"error","message":"TypeError: Cannot read properties of undefined (reading 'id')"}
+{"level":"error","message":"TypeError: Cannot read properties of undefined (reading 'id')"}
+{"level":"error","message":"TypeError: Cannot read properties of undefined (reading 'id')"}
+{"level":"error","message":"TypeError: Cannot read properties of undefined (reading 'id')"}
+{"level":"error","message":"TypeError: Cannot read properties of undefined (reading 'id')"}
+{"level":"error","message":"TypeError: Cannot read properties of undefined (reading 'id')"}
+{"level":"error","message":"TypeError: Cannot read properties of undefined (reading 'id')"}
+{"level":"error","message":"TypeError: Cannot read properties of undefined (reading 'id')"}

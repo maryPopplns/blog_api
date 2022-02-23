@@ -51,7 +51,7 @@ app.use(function (req, res, next) {
 
 // [ ERROR HANDLING ]
 app.use(function (error, req, res, next) {
-  logger.error(error);
+  logger.error(`${error}`);
   res.status(error.status || 500);
   res.json({ error });
 });
