@@ -630,3 +630,6 @@
 ::1 - - [23/Feb/2022:15:27:27 +0000] "GET / HTTP/1.1" 200 - "http://localhost:3000/login/local" "PostmanRuntime/7.29.0"
 ::1 - - [23/Feb/2022:15:27:38 +0000] "DELETE /blog/6215238075a5d73690ac6048/delete HTTP/1.1" 201 26 "-" "PostmanRuntime/7.29.0"
 ::1 - - [23/Feb/2022:15:28:58 +0000] "DELETE /blog/62164a433709451235a9065c/delete HTTP/1.1" 201 26 "-" "PostmanRuntime/7.29.0"
+::1 - - [23/Feb/2022:15:53:24 +0000] "POST /login/local HTTP/1.1" 302 23 "-" "PostmanRuntime/7.29.0"
+::1 - - [23/Feb/2022:15:53:24 +0000] "GET / HTTP/1.1" 200 - "http://localhost:3000/login/local" "PostmanRuntime/7.29.0"
+::1 - - [23/Feb/2022:15:54:51 +0000] "POST /blog/create/ HTTP/1.1" 201 26 "-" "PostmanRuntime/7.29.0"

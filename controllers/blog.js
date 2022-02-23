@@ -124,7 +124,7 @@ exports.deletePost = function (req, res, next) {
       // logged in
       BlogPost.findByIdAndDelete(req.params.id)
         .then(() => {
-          res.status(201).json({ message: 'post deleted' });
+          res.status(201).json({ message: 'Post deleted' });
         })
         .catch((error) => next(error));
     }

@@ -11,6 +11,4 @@ const blogPostSchema = new Schema({
   date: { type: Date, default: Date.now },
 });
 
-// TODO create vituals for incrementing/decrementing likes
-
 module.exports = mongoose.model('BlogPost', blogPostSchema);
