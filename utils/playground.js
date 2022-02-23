@@ -38,18 +38,29 @@ function createUser() {
 
 (function virtuals() {
   const query = '621672c4a13b66bea62d4b49';
-  const update = {
-    $inc: { likes: 1 },
-  };
-  const options = { upsert: true, new: true };
+  // const update = {
+  //   $inc: { likes: 1 },
+  // };
+  // const options = { upsert: true, new: true };
+  // BlogPost.findOneAndUpdate(query, update, options, function (error, result) {
+  //   if (error) {
+  //     logger.error(`${error}`);
+  //     mongoose.connection.close();
+  //   } else {
+  //     logger.info(result);
+  //     mongoose.connection.close();
+  //   }
+  // });
+
   // Find the document
-  BlogPost.findOneAndUpdate(query, update, options, function (error, result) {
-    if (error) {
-      logger.error(`${error}`);
+
+  BlogPost.findById(query)
+    .then((post) => {
+      console.log(post.inc());
       mongoose.connection.close();
-    } else {
-      logger.info(result);
+    })
+    .catch((error) => {
+      logger.error(error);
       mongoose.connection.close();
-    }
-  });
+    });
 })();

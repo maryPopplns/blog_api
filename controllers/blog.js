@@ -88,6 +88,7 @@ exports.updatePost = [
   },
 ];
 
+// [ DELETE BLOG POST ]
 exports.deletePost = function (req, res, next) {
   async.waterfall(
     [
@@ -131,10 +132,56 @@ exports.deletePost = function (req, res, next) {
   );
 };
 
+// [ LIKE BLOG POST ]
 exports.incrementPostLikes = function (req, res, next) {
-  res.json({ inc: 'inc' });
+  async.waterfall(
+    [
+      function (done) {
+        passport.authenticate(
+          'jwt',
+          { session: false },
+          function (error, user) {
+            if (error) {
+              next(error);
+            } else if (!user) {
+              res.status(401).json({ message: 'unauthorized' });
+            } else {
+              done(null, user);
+            }
+          }
+        )(req, res);
+      },
+      function (user, done) {
+        const { id } = user;
+        const postID = req.params.id;
+        res.json({ user, postID });
+        // TODO check if the current user has liked the current page or not
+      },
+    ],
+    function () {
+      res.end();
+      // TODO if the user has liked the page, then return a negative response 400
+      // TODO if the user hasnt liked the page, the ruturn 201
+      // TODO add the blogpost to the list of likes on the user model
+      //
+      //
+      // const query = req.params.id;
+      // const update = {
+      //   $inc: { likes: 1 },
+      // };
+      // const options = { upsert: true, new: true };
+      // BlogPost.findOneAndUpdate(query, update, options, function (error, result) {
+      //   if (error) {
+      //     next(error);
+      //   } else {
+      //     res.status(201).json({ message: 'Liked' });
+      //   }
+      // });
+    }
+  );
 };
 
+// [ UNLIKE BLOG POST ]
 exports.decrementPostLikes = function (req, res, next) {
   res.json({ dec: 'dec' });
 };
