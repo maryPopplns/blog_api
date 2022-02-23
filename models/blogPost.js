@@ -11,4 +11,12 @@ const blogPostSchema = new Schema({
   date: { type: Date, default: Date.now },
 });
 
+blogPostSchema.virtual('inc').set(function () {
+  this.likes = this.likes + 1;
+});
+
+blogPostSchema.virtual('dec').set(function () {
+  this.likes = this.likes - 1;
+});
+
 module.exports = mongoose.model('BlogPost', blogPostSchema);
