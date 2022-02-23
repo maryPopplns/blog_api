@@ -155,7 +155,7 @@ exports.incrementPostLikes = function (req, res, next) {
       function (user, done) {
         const blogID = req.params.id;
         if (user.likes.includes(blogID)) {
-          res.status(400).json({ message: 'User has liked post' });
+          res.status(400).json({ message: 'Currently liked' });
         } else {
           done(null, user);
         }
@@ -178,18 +178,16 @@ exports.incrementPostLikes = function (req, res, next) {
     ],
     function (error, user) {
       // add blogid to user likes
-      // const query = { _id: user.id };
-      // const update = { $push: { likes: req.params.id } };
-      // const options = { upsert: true, new: true };
-      // Find the document
-      res.json({ user });
-      // User.findOneAndUpdate(query, update, options, function (error, result) {
-      //   if (error) {
-      //     next(error);
-      //   } else {
-      //     res.status(201).json({ message: 'Post has been liked' });
-      //   }
-      // });
+      const query = { _id: user.id };
+      const update = { $push: { likes: req.params.id } };
+      const options = { upsert: true, new: true };
+      User.findOneAndUpdate(query, update, options, function (error, result) {
+        if (error) {
+          next(error);
+        } else {
+          res.status(201).json({ message: 'Post has been liked' });
+        }
+      });
     }
   );
 };
