@@ -15,7 +15,10 @@ exports.login_local_post = [
       { session: false },
       function (error, user, info) {
         // error || !user
-        if (error || !user) {
+        if (error) {
+          next(error);
+        }
+        if (!user) {
           return res.status(400).json({
             message: info.message,
           });
@@ -47,20 +50,29 @@ exports.login_google_get = passport.authenticate('google', {
 });
 
 exports.login_google_success_get = function (req, res, next) {
-  passport.authenticate('google', function (error, user, info) {
-    // error
-    if (error) {
-      return next(error);
+  passport.authenticate(
+    'google',
+    { session: false },
+    function (error, user, info) {
+      // error
+      if (error) {
+        next(error);
+      }
+      if (!user) {
+        return res.status(400).json({
+          message: info.message,
+        });
+      }
+      const token = jwt.sign(
+        {
+          data: user.toJSON(),
+          exp: Math.floor(Date.now() / 1000) + 60 * 60,
+        },
+        process.env.JWT_SECRET
+      );
+      // send token / redirect to home
+      res.cookie('token', token);
+      return res.redirect('/');
     }
-    const token = jwt.sign(
-      {
-        data: user.toJSON(),
-        exp: Math.floor(Date.now() / 1000) + 60 * 60,
-      },
-      process.env.JWT_SECRET
-    );
-    // send token / redirect to home
-    res.cookie('token', token);
-    return res.redirect('/');
-  })(req, res, next);
+  )(req, res, next);
 };

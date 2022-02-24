@@ -206,7 +206,8 @@ exports.decrementPostLikes = [
     }
   },
   function (req, res, next) {
+    // remove from user likes list
+    // decrement count from blogPost likes
     res.end();
-    //
   },
 ];
