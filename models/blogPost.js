@@ -1,4 +1,6 @@
+const path = require('path');
 const mongoose = require('mongoose');
+const { commentSchema } = require(path.join(__dirname, '/comment'));
 
 const Schema = mongoose.Schema;
 
@@ -7,7 +9,8 @@ const blogPostSchema = new Schema({
   title: { type: String, required: true },
   body: { type: String, required: true },
   likes: { type: Number, default: 0 },
-  comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
+  comments: [commentSchema],
+  // comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
   date: { type: Date, default: Date.now },
 });
 
