@@ -31,7 +31,7 @@ exports.login_local_post = [
           const token = jwt.sign(
             {
               data: user.toJSON(),
-              exp: Math.floor(Date.now() / 1000) + 60 * 60,
+              exp: process.env.EXP,
             },
             process.env.JWT_SECRET
           );
@@ -66,7 +66,7 @@ exports.login_google_success_get = function (req, res, next) {
       const token = jwt.sign(
         {
           data: user.toJSON(),
-          exp: Math.floor(Date.now() / 1000) + 60 * 60,
+          exp: process.env.EXP,
         },
         process.env.JWT_SECRET
       );
