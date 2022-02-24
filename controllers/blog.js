@@ -199,8 +199,14 @@ exports.decrementPostLikes = [
     auth(req, res, next);
   },
   function (req, res, next) {
-    logger.info(req.user);
-    res.end('second');
+    if (!req.user.likes.includes(req.params.id)) {
+      res.status(400).json({ message: 'Currently not liked' });
+    } else {
+      next();
+    }
+  },
+  function (req, res, next) {
+    res.end();
     //
   },
 ];
