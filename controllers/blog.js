@@ -245,11 +245,25 @@ exports.decrementPostLikes = [
 
 // [ BLOG COMMENT ]
 exports.commentPost = [
+  check('comment').trim().escape(),
   function (req, res, next) {
     auth(req, res, next);
   },
   function (req, res, next) {
-    res.json({ message: 'comment post' });
-    // TODO find the blog post
+    const updateContent = {
+      author: req.user.id,
+      comment: req.body.comment,
+    };
+    const query = { _id: req.params.id };
+    const update = { $push: { comments: updateContent } };
+    const options = { upsert: true, new: true };
+    // Find the document
+    BlogPost.findOneAndUpdate(query, update, options, function (error, result) {
+      if (error) {
+        logger.error(`${error}`);
+      } else {
+        res.status(201).json({ message: 'Comment was added' });
+      }
+    });
   },
 ];
