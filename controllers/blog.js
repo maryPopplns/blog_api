@@ -6,6 +6,7 @@ const { check } = require('express-validator');
 const { logger } = require(path.join(__dirname, '../logger/logger.js'));
 const BlogPost = require(path.join(__dirname, '../models/blogPost'));
 const User = require(path.join(__dirname, '../models/user'));
+const auth = require(path.join(__dirname, '../utils/auth'));
 
 // [ CREATE BLOG POST ]
 exports.createPost = [
@@ -193,6 +194,13 @@ exports.incrementPostLikes = function (req, res, next) {
 };
 
 // [ UNLIKE BLOG POST ]
-exports.decrementPostLikes = function (req, res, next) {
-  res.json({ dec: 'dec' });
-};
+exports.decrementPostLikes = [
+  function (req, res, next) {
+    auth(req, res, next);
+  },
+  function (req, res, next) {
+    logger.info(req.user);
+    res.end('second');
+    //
+  },
+];

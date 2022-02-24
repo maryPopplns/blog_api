@@ -36,19 +36,19 @@ function createUser() {
 // createUser();
 // createBlogPost();
 
-(function userLikes() {
-  const update = { $pullAll: { likes: [{ _id: '6216a7367b02b12d7976d68a' }] } };
-  const query = { _id: '6216a70f3969117d4f89d7ad' };
-  // const update = { $push: { likes: '6216a7367b02b12d7976d68a' } };
-  const options = { upsert: true, new: true };
-  // Find the document
-  User.findOneAndUpdate(query, update, options, function (error, result) {
-    if (error) {
-      logger.error(`${error}`);
-      mongoose.connection.close();
-    } else {
-      logger.info(result);
-      mongoose.connection.close();
-    }
-  });
-})();
+// (function userLikes() {
+//   const update = { $pullAll: { likes: [{ _id: '6216a7367b02b12d7976d68a' }] } };
+//   const query = { _id: '6216a70f3969117d4f89d7ad' };
+//   // const update = { $push: { likes: '6216a7367b02b12d7976d68a' } };
+//   const options = { upsert: true, new: true };
+//   // Find the document
+//   User.findOneAndUpdate(query, update, options, function (error, result) {
+//     if (error) {
+//       logger.error(`${error}`);
+//       mongoose.connection.close();
+//     } else {
+//       logger.info(result);
+//       mongoose.connection.close();
+//     }
+//   });
+// })();
