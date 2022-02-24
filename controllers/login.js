@@ -5,6 +5,11 @@ const passport = require('passport');
 const { check } = require('express-validator');
 const { logger } = require(path.join(__dirname, '../logger/logger'));
 
+const time = {
+  hour: Math.floor(Date.now() / 1000) + 60 * 60,
+  day: Math.floor(Date.now() / 1000) + 60 * 60 * 24,
+};
+
 // [ LOGIN FOR LOCAL STRATEGY ]
 exports.login_local_post = [
   check('username').trim().escape(),
@@ -31,7 +36,7 @@ exports.login_local_post = [
           const token = jwt.sign(
             {
               data: user.toJSON(),
-              exp: process.env.EXP,
+              exp: time.day,
             },
             process.env.JWT_SECRET
           );
@@ -66,7 +71,7 @@ exports.login_google_success_get = function (req, res, next) {
       const token = jwt.sign(
         {
           data: user.toJSON(),
-          exp: process.env.EXP,
+          exp: time.day,
         },
         process.env.JWT_SECRET
       );

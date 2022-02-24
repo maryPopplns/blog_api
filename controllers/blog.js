@@ -206,8 +206,39 @@ exports.decrementPostLikes = [
     }
   },
   function (req, res, next) {
-    // remove from user likes list
-    // decrement count from blogPost likes
-    res.end();
+    async.parallel(
+      {
+        blogLikes: function (done) {
+          BlogPost.findOneAndUpdate(
+            req.params.id,
+            { $inc: { likes: -1 } },
+            { upsert: true, new: true },
+            function (error) {
+              if (error) {
+                next(error);
+              } else {
+                done(null);
+              }
+            }
+          );
+        },
+        userLikes: function (done) {
+          const query = { _id: req.user.id };
+          const update = { $pullAll: { likes: [{ _id: req.params.id }] } };
+          const options = { upsert: true, new: true };
+          User.findOneAndUpdate(query, update, options, function (error) {
+            if (error) {
+              next(error);
+            } else {
+              done(null);
+            }
+          });
+        },
+      },
+      function (error, results) {
+        res.status(201).json({ message: 'Post has been unliked' });
+        // results is equal to: { one: 1, two: 2 }
+      }
+    );
   },
 ];

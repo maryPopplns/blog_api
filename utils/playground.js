@@ -11,13 +11,13 @@ function createUser() {
     if (error) {
       return logger.error('generating salt error: ', error);
     }
-    bcrypt.hash('1234', salt, function (error, hash) {
+    bcrypt.hash('123', salt, function (error, hash) {
       if (error) {
         return logger.error('generating hash error: ', error);
       }
       User.create(
         {
-          username: 'spencer1',
+          username: 'spencer',
           password: hash,
         },
         function (error, user) {
@@ -34,7 +34,6 @@ function createUser() {
 }
 
 // createUser();
-// createBlogPost();
 
 // (function userLikes() {
 //   const update = { $pullAll: { likes: [{ _id: '6216a7367b02b12d7976d68a' }] } };
