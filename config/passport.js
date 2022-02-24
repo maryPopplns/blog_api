@@ -3,7 +3,6 @@ const path = require('path');
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const passportJWT = require('passport-jwt');
-const e = require('express');
 const JWTStrategy = passportJWT.Strategy;
 const ExtractJWT = passportJWT.ExtractJwt;
 const LocalStrategy = require('passport-local').Strategy;

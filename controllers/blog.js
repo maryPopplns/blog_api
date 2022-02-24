@@ -206,6 +206,7 @@ exports.decrementPostLikes = [
     }
   },
   function (req, res, next) {
+    // update user / blogpost
     async.parallel(
       {
         blogLikes: function (done) {
@@ -235,10 +236,20 @@ exports.decrementPostLikes = [
           });
         },
       },
-      function (error, results) {
+      function () {
         res.status(201).json({ message: 'Post has been unliked' });
-        // results is equal to: { one: 1, two: 2 }
       }
     );
+  },
+];
+
+// [ BLOG COMMENT ]
+exports.commentPost = [
+  function (req, res, next) {
+    auth(req, res, next);
+  },
+  function (req, res, next) {
+    res.json({ message: 'comment post' });
+    // TODO find the blog post
   },
 ];
