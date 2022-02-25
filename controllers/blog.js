@@ -109,9 +109,9 @@ exports.incrementPostLikes = [
   },
   function (req, res, next) {
     async.parallel(
-      // update user/blog
       {
         blogLikes: function (done) {
+          // update blog
           BlogPost.findByIdAndUpdate(
             req.params.id,
             { $inc: { likes: 1 } },
@@ -126,6 +126,7 @@ exports.incrementPostLikes = [
           );
         },
         userLikes: function (done) {
+          // update user
           User.findByIdAndUpdate(
             req.user.id,
             { $push: { likes: req.params.id } },
@@ -158,10 +159,10 @@ exports.decrementPostLikes = [
     }
   },
   function (req, res, next) {
-    // update user/blog
     async.parallel(
       {
         blogLikes: function (done) {
+          // update blog
           BlogPost.findByIdAndUpdate(
             req.params.id,
             { $inc: { likes: -1 } },
@@ -176,6 +177,7 @@ exports.decrementPostLikes = [
           );
         },
         userLikes: function (done) {
+          // update user
           User.findByIdAndUpdate(
             req.user.id,
             { $pullAll: { likes: [{ _id: req.params.id }] } },
@@ -198,7 +200,6 @@ exports.decrementPostLikes = [
 ];
 
 // [ POST COMMENT ]
-
 exports.commentPost = [
   check('comment').trim().escape(),
   authentication,
@@ -207,6 +208,7 @@ exports.commentPost = [
       author: req.user.id,
       comment: req.body.comment,
     };
+    // post comment
     BlogPost.findById(req.params.id)
       .then((post) => {
         post.comments.push(updateContent);
