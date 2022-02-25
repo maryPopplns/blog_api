@@ -19,14 +19,13 @@ exports.createPost = [
   function (req, res, next) {
     const { title, body } = req.body;
     const author = req.user.id;
-    // logged in
     BlogPost.create(
       {
         author,
         title,
         body,
       },
-      function (error, user) {
+      function (error) {
         if (error) {
           next(error);
         } else {
@@ -42,43 +41,34 @@ exports.updatePost = [
   check('title').trim().escape(),
   check('body').trim().escape(),
   function (req, res, next) {
-    passport.authenticate(
-      'jwt',
-      { session: false },
-      function (error, user, info) {
+    auth(req, res, next);
+  },
+  function (req, res, next) {
+    // authorization
+    BlogPost.findById(req.params.id, function (error, post) {
+      if (error) {
+        next(error);
+      } else if (post.author.toString() !== req.user.id) {
+        res.status(403).json({ message: 'Forbidden' });
+      } else {
+        next();
+      }
+    });
+  },
+  function (req, res, next) {
+    const { title, body } = req.body;
+    BlogPost.findByIdAndUpdate(
+      req.params.id,
+      { title, body },
+      { upsert: true, new: true },
+      function (error) {
         if (error) {
           next(error);
-        } else if (!user) {
-          res.status(401).json({ message: 'Unauthorized' });
         } else {
-          BlogPost.findById(req.params.id, function (error, post) {
-            if (error) {
-              next(error);
-            } else if (post.author.toString() !== user.id) {
-              res.status(403).json({ message: 'Forbidden' });
-            } else {
-              // logged in
-              const { title, body } = req.body;
-              const query = post.id;
-              const update = { title, body };
-              const options = { upsert: true, new: true };
-              BlogPost.findByIdAndUpdate(
-                query,
-                update,
-                options,
-                function (error, result) {
-                  if (error) {
-                    next(error);
-                  } else {
-                    res.status(201).json({ message: 'Post updated' });
-                  }
-                }
-              );
-            }
-          });
+          res.status(201).json({ message: 'Post updated' });
         }
       }
-    )(req, res);
+    );
   },
 ];
 
