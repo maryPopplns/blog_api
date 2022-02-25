@@ -243,7 +243,8 @@ exports.decrementPostLikes = [
   },
 ];
 
-// [ BLOG COMMENT ]
+// [ POST COMMENT ]
+
 exports.commentPost = [
   check('comment').trim().escape(),
   function (req, res, next) {
