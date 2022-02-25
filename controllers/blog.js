@@ -56,6 +56,7 @@ exports.updatePost = [
     });
   },
   function (req, res, next) {
+    // update post
     const { title, body } = req.body;
     BlogPost.findByIdAndUpdate(
       req.params.id,
@@ -73,48 +74,31 @@ exports.updatePost = [
 ];
 
 // [ DELETE BLOG POST ]
-exports.deletePost = function (req, res, next) {
-  async.waterfall(
-    [
-      function (done) {
-        passport.authenticate(
-          'jwt',
-          { session: false },
-          function (error, user) {
-            if (error) {
-              next(error);
-            } else if (!user) {
-              res.status(401).json({ message: 'Unauthorized' });
-            } else {
-              done(null, user);
-            }
-          }
-        )(req, res);
-      },
-      function (user, done) {
-        BlogPost.findById(req.params.id)
-          .then((blogPost) => {
-            if (user.id !== blogPost.author.toString()) {
-              res.status(403).json({ message: 'Forbidden' });
-            } else {
-              done(null);
-            }
-          })
-          .catch((error) => {
-            next(error);
-          });
-      },
-    ],
-    function () {
-      // logged in
-      BlogPost.findByIdAndDelete(req.params.id)
-        .then(() => {
-          res.status(201).json({ message: 'Post deleted' });
-        })
-        .catch((error) => next(error));
-    }
-  );
-};
+exports.deletePost = [
+  function (req, res, next) {
+    auth(req, res, next);
+  },
+  function (req, res, next) {
+    BlogPost.findById(req.params.id)
+      .then((blogPost) => {
+        if (req.user.id !== blogPost.author.toString()) {
+          res.status(403).json({ message: 'Forbidden' });
+        } else {
+          next();
+        }
+      })
+      .catch((error) => {
+        next(error);
+      });
+  },
+  function (req, res, next) {
+    BlogPost.findByIdAndDelete(req.params.id)
+      .then(() => {
+        res.status(201).json({ message: 'Post deleted' });
+      })
+      .catch((error) => next(error));
+  },
+];
 
 // [ LIKE BLOG POST ]
 exports.incrementPostLikes = function (req, res, next) {

@@ -5,7 +5,7 @@ module.exports = function (req, res, next) {
     if (error) {
       next(error);
     } else if (!user) {
-      res.status(401).json({ message: 'Unauthorized' });
+      res.status(401).json({ message: 'Unauthenticated' });
     } else {
       req.user = user;
       next();
