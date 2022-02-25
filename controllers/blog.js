@@ -14,35 +14,26 @@ exports.createPost = [
   check('title').trim().escape(),
   check('body').trim().escape(),
   function (req, res, next) {
-    passport.authenticate(
-      'jwt',
-      { session: false },
-      function (error, user, info) {
+    auth(req, res, next);
+  },
+  function (req, res, next) {
+    const { title, body } = req.body;
+    const author = req.user.id;
+    // logged in
+    BlogPost.create(
+      {
+        author,
+        title,
+        body,
+      },
+      function (error, user) {
         if (error) {
           next(error);
-        } else if (!user) {
-          res.status(401).json({ message: 'Unauthorized' });
         } else {
-          const { title, body } = req.body;
-          const author = user.id;
-          // logged in
-          BlogPost.create(
-            {
-              author,
-              title,
-              body,
-            },
-            function (error, user) {
-              if (error) {
-                next(error);
-              } else {
-                res.status(201).json({ message: 'Post created' });
-              }
-            }
-          );
+          res.status(201).json({ message: 'Post created' });
         }
       }
-    )(req, res);
+    );
   },
 ];
 
