@@ -268,3 +268,13 @@ exports.commentPost = [
       .catch((error) => next(error));
   },
 ];
+
+// [ DELETE COMMENT ]
+exports.commentDelete = [
+  function (req, res, next) {
+    auth(req, res, next);
+  },
+  function (req, res, next) {
+    res.json({ message: 'second' });
+  },
+];

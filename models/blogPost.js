@@ -10,7 +10,6 @@ const blogPostSchema = new Schema({
   body: { type: String, required: true },
   likes: { type: Number, default: 0 },
   comments: [comment],
-  // comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
   date: { type: Date, default: Date.now },
 });
 
