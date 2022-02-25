@@ -53,7 +53,7 @@ app.use(function (req, res, next) {
 app.use(function (error, req, res, next) {
   logger.error(`${error}`);
   res.status(error.status || 500);
-  res.json({ error });
+  res.json({ error: `${error}` });
 });
 
 module.exports = app;

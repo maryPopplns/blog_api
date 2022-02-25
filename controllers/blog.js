@@ -3,6 +3,7 @@ const path = require('path');
 const async = require('async');
 const passport = require('passport');
 const { check } = require('express-validator');
+const { networkInterfaces } = require('os');
 const { logger } = require(path.join(__dirname, '../logger/logger.js'));
 const BlogPost = require(path.join(__dirname, '../models/blogPost'));
 const User = require(path.join(__dirname, '../models/user'));
@@ -292,6 +293,17 @@ exports.commentDelete = [
       .catch((error) => next(error));
   },
   function (req, res, next) {
-    res.end('authorized');
+    // delete comment
+    BlogPost.findById(req.params.id)
+      .then((post) => {
+        post.comments.id(req.params.comment).remove();
+        post
+          .save()
+          .then(() => {
+            res.json({ message: 'Comment deleted' });
+          })
+          .catch((error) => next(error));
+      })
+      .catch((error) => next(error));
   },
 ];
