@@ -275,6 +275,23 @@ exports.commentDelete = [
     auth(req, res, next);
   },
   function (req, res, next) {
-    res.json({ message: 'second' });
+    // authorization
+    BlogPost.findById(req.params.id)
+      .lean()
+      .then((post) => {
+        const comment = post.comments.filter(
+          (comment) => comment._id.toString() === req.params.comment
+        )[0];
+
+        if (req.user.id !== comment.author.toString()) {
+          res.status(403).json({ message: 'Forbidden' });
+        } else {
+          next();
+        }
+      })
+      .catch((error) => next(error));
+  },
+  function (req, res, next) {
+    res.end('authorized');
   },
 ];
