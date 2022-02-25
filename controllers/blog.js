@@ -254,16 +254,16 @@ exports.commentPost = [
       author: req.user.id,
       comment: req.body.comment,
     };
-    const query = { _id: req.params.id };
-    const update = { $push: { comments: updateContent } };
-    const options = { upsert: true, new: true };
-    // Find the document
-    BlogPost.findOneAndUpdate(query, update, options, function (error, result) {
-      if (error) {
-        logger.error(`${error}`);
-      } else {
-        res.status(201).json({ message: 'Comment was added' });
-      }
-    });
+    BlogPost.findById(req.params.id)
+      .then((post) => {
+        post.comments.push(updateContent);
+        post
+          .save()
+          .then(() => {
+            res.status(201).json({ message: 'Comment saved' });
+          })
+          .catch((error) => next(error));
+      })
+      .catch((error) => next(error));
   },
 ];
