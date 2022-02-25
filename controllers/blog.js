@@ -109,6 +109,7 @@ exports.incrementPostLikes = [
   },
   function (req, res, next) {
     async.parallel(
+      // update user/blog
       {
         blogLikes: function (done) {
           BlogPost.findByIdAndUpdate(
@@ -148,9 +149,7 @@ exports.incrementPostLikes = [
 
 // [ UNLIKE BLOG POST ]
 exports.decrementPostLikes = [
-  function (req, res, next) {
-    auth(req, res, next);
-  },
+  authentication,
   function (req, res, next) {
     if (!req.user.likes.includes(req.params.id)) {
       res.status(400).json({ message: 'Currently not liked' });
@@ -159,11 +158,11 @@ exports.decrementPostLikes = [
     }
   },
   function (req, res, next) {
-    // update user / blogpost
+    // update user/blog
     async.parallel(
       {
         blogLikes: function (done) {
-          BlogPost.findOneAndUpdate(
+          BlogPost.findByIdAndUpdate(
             req.params.id,
             { $inc: { likes: -1 } },
             { upsert: true, new: true },
@@ -177,16 +176,18 @@ exports.decrementPostLikes = [
           );
         },
         userLikes: function (done) {
-          const query = { _id: req.user.id };
-          const update = { $pullAll: { likes: [{ _id: req.params.id }] } };
-          const options = { upsert: true, new: true };
-          User.findOneAndUpdate(query, update, options, function (error) {
-            if (error) {
-              next(error);
-            } else {
-              done(null);
+          User.findByIdAndUpdate(
+            req.user.id,
+            { $pullAll: { likes: [{ _id: req.params.id }] } },
+            { upsert: true, new: true },
+            function (error) {
+              if (error) {
+                next(error);
+              } else {
+                done(null);
+              }
             }
-          });
+          );
         },
       },
       function () {
@@ -200,9 +201,7 @@ exports.decrementPostLikes = [
 
 exports.commentPost = [
   check('comment').trim().escape(),
-  function (req, res, next) {
-    auth(req, res, next);
-  },
+  authentication,
   function (req, res, next) {
     const updateContent = {
       author: req.user.id,
@@ -224,9 +223,7 @@ exports.commentPost = [
 
 // [ DELETE COMMENT ]
 exports.commentDelete = [
-  function (req, res, next) {
-    auth(req, res, next);
-  },
+  authentication,
   function (req, res, next) {
     // authorization
     BlogPost.findById(req.params.id)
