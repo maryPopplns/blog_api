@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const helmet = require('helmet');
 const express = require('express');
+const cors = require('cors');
 const requestLogger = require('morgan');
 const compression = require('compression');
 const createError = require('http-errors');
@@ -27,6 +28,7 @@ const stream = fs.createWriteStream(
 app.use(requestLogger('combined', { stream }));
 
 // [ MIDDLEWARE ]
+app.use(cors());
 app.use(compression());
 app.use(helmet());
 app.use(express.json());
