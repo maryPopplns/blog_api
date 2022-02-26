@@ -80,9 +80,7 @@ exports.deletePost = [
           next();
         }
       })
-      .catch((error) => {
-        next(error);
-      });
+      .catch(next);
   },
   function (req, res, next) {
     // delete post
@@ -90,7 +88,7 @@ exports.deletePost = [
       .then(() => {
         res.status(201).json({ message: 'Post deleted' });
       })
-      .catch((error) => next(error));
+      .catch(next);
   },
 ];
 
@@ -216,9 +214,9 @@ exports.commentPost = [
           .then(() => {
             res.status(201).json({ message: 'Comment saved' });
           })
-          .catch((error) => next(error));
+          .catch(next);
       })
-      .catch((error) => next(error));
+      .catch(next);
   },
 ];
 
@@ -240,7 +238,7 @@ exports.commentDelete = [
           next();
         }
       })
-      .catch((error) => next(error));
+      .catch(next);
   },
   function (req, res, next) {
     // delete comment
@@ -252,8 +250,8 @@ exports.commentDelete = [
           .then(() => {
             res.json({ message: 'Comment deleted' });
           })
-          .catch((error) => next(error));
+          .catch(next);
       })
-      .catch((error) => next(error));
+      .catch(next);
   },
 ];
