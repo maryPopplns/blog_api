@@ -1,7 +1,6 @@
 require('dotenv').config();
 const path = require('path');
 const async = require('async');
-const passport = require('passport');
 const { check } = require('express-validator');
 const { logger } = require(path.join(__dirname, '../logger/logger.js'));
 const BlogPost = require(path.join(__dirname, '../models/blogPost'));

@@ -1,7 +1,8 @@
 const fs = require('fs');
 const path = require('path');
-const requestLogger = require('morgan');
 const express = require('express');
+const requestLogger = require('morgan');
+var compression = require('compression');
 const createError = require('http-errors');
 const cookieParser = require('cookie-parser');
 const { logger } = require(path.join(__dirname, '/logger/logger.js'));
@@ -25,16 +26,17 @@ const stream = fs.createWriteStream(
 app.use(requestLogger('combined', { stream }));
 
 // [ MIDDLEWARE ]
+app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // [ CLEAR COOKIES ]
-// app.use((req, res, next) => {
-//   res.clearCookie('token');
-//   next();
-// });
+app.use((req, res, next) => {
+  res.clearCookie('token');
+  next();
+});
 
 // [ AUTHENTICATION ]
 require(path.join(__dirname, '/config/passport'));
