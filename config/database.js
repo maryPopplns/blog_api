@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const { logger } = require(path.join(__dirname, '../logger/logger'));
 
 mongoose
-  .connect(process.env.LOCAL_CONNECTION, {
+  .connect(process.env.DATABASE_URL, {
     useUnifiedTopology: true,
     useNewUrlParser: true,
   })
