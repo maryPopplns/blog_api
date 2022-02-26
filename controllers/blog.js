@@ -36,8 +36,7 @@ exports.updatePost = [
   check('title').trim().escape(),
   check('body').trim().escape(),
   authentication,
-  function (req, res, next) {
-    // authorization
+  function authorization(req, res, next) {
     BlogPost.findById(req.params.id, function (error, post) {
       if (error) {
         next(error);
@@ -48,8 +47,7 @@ exports.updatePost = [
       }
     });
   },
-  function (req, res, next) {
-    // update post
+  function updatePost(req, res, next) {
     const { title, body } = req.body;
     BlogPost.findByIdAndUpdate(
       req.params.id,
@@ -69,8 +67,7 @@ exports.updatePost = [
 // [ DELETE BLOG POST ]
 exports.deletePost = [
   authentication,
-  function (req, res, next) {
-    // authorization
+  function authorization(req, res, next) {
     BlogPost.findById(req.params.id)
       .then((blogPost) => {
         if (req.user.id !== blogPost.author.toString()) {
@@ -81,12 +78,9 @@ exports.deletePost = [
       })
       .catch(next);
   },
-  function (req, res, next) {
-    // delete post
+  function deletePost(req, res, next) {
     BlogPost.findByIdAndDelete(req.params.id)
-      .then(() => {
-        res.status(201).json({ message: 'Post deleted' });
-      })
+      .then(() => res.status(201).json({ message: 'Post deleted' }))
       .catch(next);
   },
 ];
@@ -94,7 +88,7 @@ exports.deletePost = [
 // [ LIKE BLOG POST ]
 exports.incrementPostLikes = [
   authentication,
-  function (req, res, next) {
+  function preventDoubleLike(req, res, next) {
     const userLikes = req.user.likes;
     const selectedBlog = req.params.id;
     if (userLikes.includes(selectedBlog)) {
@@ -106,8 +100,7 @@ exports.incrementPostLikes = [
   function (req, res, next) {
     async.parallel(
       {
-        blogLikes: function (done) {
-          // update blog
+        blog: function incrementLikes(done) {
           BlogPost.findByIdAndUpdate(
             req.params.id,
             { $inc: { likes: 1 } },
@@ -121,8 +114,7 @@ exports.incrementPostLikes = [
             }
           );
         },
-        userLikes: function (done) {
-          // update user
+        user: function pushPost(done) {
           User.findByIdAndUpdate(
             req.user.id,
             { $push: { likes: req.params.id } },
@@ -147,8 +139,10 @@ exports.incrementPostLikes = [
 // [ UNLIKE BLOG POST ]
 exports.decrementPostLikes = [
   authentication,
-  function (req, res, next) {
-    if (!req.user.likes.includes(req.params.id)) {
+  function preventDoubleUnlike(req, res, next) {
+    const userLikes = req.user.likes;
+    const blogPost = req.params.id;
+    if (!userLikes.includes(blogPost)) {
       res.status(400).json({ message: 'Currently not liked' });
     } else {
       next();
@@ -157,8 +151,7 @@ exports.decrementPostLikes = [
   function (req, res, next) {
     async.parallel(
       {
-        blogLikes: function (done) {
-          // update blog
+        blog: function decrementLikes(done) {
           BlogPost.findByIdAndUpdate(
             req.params.id,
             { $inc: { likes: -1 } },
@@ -172,8 +165,7 @@ exports.decrementPostLikes = [
             }
           );
         },
-        userLikes: function (done) {
-          // update user
+        user: function pullPost(done) {
           User.findByIdAndUpdate(
             req.user.id,
             { $pullAll: { likes: [{ _id: req.params.id }] } },
@@ -199,12 +191,11 @@ exports.decrementPostLikes = [
 exports.commentPost = [
   check('comment').trim().escape(),
   authentication,
-  function (req, res, next) {
+  function postComment(req, res, next) {
     const updateContent = {
       author: req.user.id,
       comment: req.body.comment,
     };
-    // post comment
     BlogPost.findById(req.params.id)
       .then((post) => {
         post.comments.push(updateContent);
@@ -222,8 +213,7 @@ exports.commentPost = [
 // [ DELETE COMMENT ]
 exports.commentDelete = [
   authentication,
-  function (req, res, next) {
-    // authorization
+  function authorization(req, res, next) {
     BlogPost.findById(req.params.id)
       .lean()
       .then((post) => {
@@ -239,8 +229,7 @@ exports.commentDelete = [
       })
       .catch(next);
   },
-  function (req, res, next) {
-    // delete comment
+  function deleteComment(req, res, next) {
     BlogPost.findById(req.params.id)
       .then((post) => {
         post.comments.id(req.params.comment).remove();
