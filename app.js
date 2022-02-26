@@ -1,9 +1,7 @@
-const fs = require('fs');
 const path = require('path');
 const helmet = require('helmet');
 const express = require('express');
 const cors = require('cors');
-const requestLogger = require('morgan');
 const compression = require('compression');
 const createError = require('http-errors');
 const cookieParser = require('cookie-parser');
@@ -19,6 +17,7 @@ const app = express();
 require(path.join(__dirname, '/config/database'));
 
 // [ MIDDLEWARE ]
+// TODO restrict access using CORS
 app.use(cors());
 app.use(compression());
 app.use(helmet());
