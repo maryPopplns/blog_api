@@ -15,17 +15,8 @@ const blogRouter = require(path.join(__dirname, 'routes/blog'));
 
 const app = express();
 
-// TODO enable CORS
-
 // [ MONGO CONNECTION ]
 require(path.join(__dirname, '/config/database'));
-
-// [ LOG REQUESTS ]
-const stream = fs.createWriteStream(
-  path.join(__dirname, 'logger/access/access.log'),
-  { flags: 'a' }
-);
-app.use(requestLogger('combined', { stream }));
 
 // [ MIDDLEWARE ]
 app.use(cors());
