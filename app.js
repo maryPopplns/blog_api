@@ -1,8 +1,9 @@
 const fs = require('fs');
 const path = require('path');
+const helmet = require('helmet');
 const express = require('express');
 const requestLogger = require('morgan');
-var compression = require('compression');
+const compression = require('compression');
 const createError = require('http-errors');
 const cookieParser = require('cookie-parser');
 const { logger } = require(path.join(__dirname, '/logger/logger.js'));
@@ -27,6 +28,7 @@ app.use(requestLogger('combined', { stream }));
 
 // [ MIDDLEWARE ]
 app.use(compression());
+app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
