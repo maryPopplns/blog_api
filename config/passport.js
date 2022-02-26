@@ -7,7 +7,6 @@ const JWTStrategy = passportJWT.Strategy;
 const ExtractJWT = passportJWT.ExtractJwt;
 const LocalStrategy = require('passport-local').Strategy;
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const { logger } = require(path.join(__dirname, '../logger/logger'));
 
 const User = require(path.join(__dirname, '../models/user'));
 

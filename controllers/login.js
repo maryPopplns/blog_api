@@ -3,7 +3,6 @@ const path = require('path');
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
 const { check } = require('express-validator');
-const { logger } = require(path.join(__dirname, '../logger/logger'));
 
 const time = {
   hour: Math.floor(Date.now() / 1000) + 60 * 60,
@@ -36,7 +35,7 @@ exports.login_local_post = [
           const token = jwt.sign(
             {
               data: user.toJSON(),
-              exp: time.day,
+              exp: time.hour,
             },
             process.env.JWT_SECRET
           );
@@ -71,7 +70,7 @@ exports.login_google_success_get = function (req, res, next) {
       const token = jwt.sign(
         {
           data: user.toJSON(),
-          exp: time.day,
+          exp: time.hour,
         },
         process.env.JWT_SECRET
       );

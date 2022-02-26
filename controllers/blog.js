@@ -2,7 +2,6 @@ require('dotenv').config();
 const path = require('path');
 const async = require('async');
 const { check } = require('express-validator');
-const { logger } = require(path.join(__dirname, '../logger/logger.js'));
 const BlogPost = require(path.join(__dirname, '../models/blogPost'));
 const User = require(path.join(__dirname, '../models/user'));
 const authentication = require(path.join(__dirname, '../utils/auth'));
