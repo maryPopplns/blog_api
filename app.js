@@ -27,12 +27,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 require('dotenv').config();
 
-// [ CLEAR COOKIES ]
-app.use((req, res, next) => {
-  res.clearCookie('token');
-  next();
-});
-
 // [ AUTHENTICATION ]
 require(path.join(__dirname, '/config/passport'));
 
