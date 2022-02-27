@@ -25,6 +25,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+require('dotenv').config();
+
 // [ CLEAR COOKIES ]
 app.use((req, res, next) => {
   res.clearCookie('token');
