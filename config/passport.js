@@ -38,7 +38,7 @@ passport.use(
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       callbackURL: `${
         process.env.ENV === 'prod'
-          ? 'https://knight-blog.herokuapp.com/'
+          ? 'https://knight-blog.herokuapp.com'
           : 'http://localhost:3000'
       }/login/google/success`,
     },
