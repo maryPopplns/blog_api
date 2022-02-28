@@ -3,7 +3,6 @@ const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
 require(path.join(__dirname, '../config/database'));
 const User = require(path.join(__dirname, '../models/user'));
-// const BlogPost = require(path.join(__dirname, '../models/blogPost'));
 
 const { logger } = require(path.join(__dirname, '../logger/logger.js'));
 

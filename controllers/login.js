@@ -1,5 +1,4 @@
 require('dotenv').config();
-const path = require('path');
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
 const { check } = require('express-validator');
