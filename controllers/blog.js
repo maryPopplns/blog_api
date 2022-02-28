@@ -21,6 +21,18 @@ exports.getBlogs = [
       }
     })(req, res);
   },
+  function (req, res, next) {
+    BlogPost.find()
+      .lean()
+      .then((blogs) => {
+        const filteredBlogs = blogs.map(({ title, body }) => ({ title, body }));
+        res.json({
+          user: req.user || null,
+          blogs: filteredBlogs,
+        });
+      })
+      .catch(next);
+  },
 ];
 
 // [ CREATE BLOG POST ]
