@@ -1,39 +1,10 @@
 require('dotenv').config();
 const path = require('path');
 const async = require('async');
-const passport = require('passport');
 const { check } = require('express-validator');
 const User = require(path.join(__dirname, '../models/user'));
 const BlogPost = require(path.join(__dirname, '../models/blogPost'));
 const authentication = require(path.join(__dirname, '../utils/auth'));
-
-// [ GET BLOGS ]
-exports.getBlogs = [
-  function (req, res, next) {
-    passport.authenticate('jwt', { session: false }, function (error, user) {
-      if (error) {
-        next(error);
-      } else if (!user) {
-        next();
-      } else {
-        req.user = user;
-        next();
-      }
-    })(req, res);
-  },
-  function (req, res, next) {
-    BlogPost.find()
-      .lean()
-      .then((blogs) => {
-        const filteredBlogs = blogs.map(({ title, body }) => ({ title, body }));
-        res.json({
-          user: req.user || null,
-          blogs: filteredBlogs,
-        });
-      })
-      .catch(next);
-  },
-];
 
 // [ CREATE BLOG POST ]
 exports.createPost = [
