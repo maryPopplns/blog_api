@@ -90,6 +90,7 @@ To run this project, you will need to add the following environment variables to
   DELETE /blog/:id/:comment/delete
 ```
 
-| Parameter | Type     | Description                                |
-| :-------- | :------- | :----------------------------------------- |
-| `id`      | `string` | **Required**. Id of blog comment to delete |
+| Parameter | Type     | Description                   |
+| :-------- | :------- | :---------------------------- |
+| `id`      | `string` | **Required**. Id of blog post |
+| `comment` | `string` | **Required**. Id of comment   |
