@@ -2,6 +2,7 @@ const path = require('path');
 const express = require('express');
 const router = express.Router();
 const {
+  getBlogs,
   createPost,
   updatePost,
   deletePost,
@@ -11,6 +12,7 @@ const {
   commentDelete,
 } = require(path.join(__dirname, '../controllers/blog'));
 
+router.get('/', getBlogs);
 router.post('/create', createPost);
 router.put('/:id/update', updatePost);
 router.delete('/:id/delete', deletePost);
