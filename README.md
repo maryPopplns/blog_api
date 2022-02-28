@@ -2,9 +2,8 @@
 
 REST API for a blog hosting site.
 
+<br>
 ## Environment Variables
-
-To run this project, you will need to add the following environment variables to your .env file
 
 | Variable | Description |
 | :------- | :---------- |
@@ -26,7 +25,14 @@ To run this project, you will need to add the following environment variables to
 | :--------------------- | :------------------- |
 | `GOOGLE_CLIENT_SECRET` | google client secret |
 
+<br>
 ## API Reference
+
+#### Homepage
+
+```http
+  GET /
+```
 
 #### create blog post
 
@@ -94,3 +100,8 @@ To run this project, you will need to add the following environment variables to
 | :-------- | :------- | :---------------------------- |
 | `id`      | `string` | **Required**. Id of blog post |
 | `comment` | `string` | **Required**. Id of comment   |
+
+<br>
+## Authentication
+
+Created with node, express, and passport. Username and password / Google Oauth
