@@ -40,7 +40,7 @@ exports.login_local_post = [
           );
           // send token / redirect to home
           res.cookie('knightBlogToken', token);
-          return res.redirect('/');
+          return res.redirect(process.env.REDIRECT);
         });
       }
     )(req, res, next);
@@ -75,7 +75,7 @@ exports.login_google_success_get = function (req, res, next) {
       );
       // send token / redirect to home
       res.cookie('knightBlogToken', token);
-      return res.redirect('/');
+      return res.redirect(process.env.REDIRECT);
     }
   )(req, res, next);
 };
