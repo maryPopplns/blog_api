@@ -21,9 +21,9 @@ exports.homepage = [
     BlogPost.find()
       .lean()
       .then((blogs) => {
-        const filteredBlogs = blogs.map(({ title, body }) => {
+        const filteredBlogs = blogs.map(({ id, author, title, body }) => {
           const decoded = he.decode(body);
-          return { title, body: decoded };
+          return { id, author, title, body: decoded };
         });
         res.json({
           user: req.user || null,
