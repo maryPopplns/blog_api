@@ -23,7 +23,6 @@ exports.homepage = [
       .then((blogs) => {
         const filteredBlogs = blogs.map(({ title, body }) => {
           const decoded = he.decode(body);
-          // return { title, body: decoded };
           return { title, body: decoded };
         });
         res.json({
