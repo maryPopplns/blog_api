@@ -39,8 +39,7 @@ exports.login_local_post = [
             process.env.JWT_SECRET
           );
           // send token / redirect to home
-          res.cookie('knightBlogToken', token);
-          return res.redirect(process.env.REDIRECT);
+          res.json({ token });
         });
       }
     )(req, res, next);
