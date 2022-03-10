@@ -7,7 +7,7 @@ const {
   login_google_success_get,
 } = require(path.join(__dirname, '../controllers/login'));
 
-router.post('/local', login_local_post);
+router.get('/local', login_local_post);
 router.get('/google', login_google_get);
 router.get('/google/success', login_google_success_get);
 
